@@ -1,0 +1,1573 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nixie+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap" rel="stylesheet">
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <title>CC BOT 1.0</title>
+</head>
+<body>
+    <div class="container-xxl" id="setupSection">
+        <h1 style="font-family: 'Black Ops One', cursive;">SETUP</h1>
+        <select class="form-select" aria-label="Select a Scenario" id="scenario_choices" style="font-family: 'Courier Prime', monospace;">
+            <option selected>Select a Scenario</option>
+        </select>
+        <div id="scenario_info" style="display:none">
+            <p></p>
+            <p style="font-family: 'Courier Prime', monospace;">
+                See page <span id="playbook_page">[NUMBER]</span> of <span id="playbook">[PLAYBOOK]</span>.
+            </p>
+            <p>SELECT NATIONALITY:</p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="forces_select" value="1" id="Nationality_1" checked>
+                <label class="form-check-label" for="Nationality_1">
+                    <span id="AXIS">[NATIONALITY 1]</span>
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="forces_select" value="2" id="Nationality_2">
+                <label class="form-check-label" for="Nationality_2">
+                    <span id="ALLIES">[NATIONALITY 2]</span>
+                </label>
+            </div>
+            <p></p>
+            <button type="button" class="btn btn-dark" id="start_game_btn">Lets Roll!</button>
+        </div>
+    </div>
+    <div id="statusSection" style="font-family: 'Courier Prime', monospace; display: none;">
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        COMBAT BOT - STATUS
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="" id="combatBotRadioInPlay">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            RADIO IN PLAY
+                        </label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="" id="combatBotBrokenRadio" disabled>
+                        <label class="form-check-label" for="flexCheckChecked">
+                            BROKEN RADIO
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="combatBotBrokenUnit">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            BROKEN UNIT
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="combatBotSuppressedUnit">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            SUPRRESSED UNIT
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="combatBotEnemyWithinLOSandRange">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            ENEMY UNIT WITHIN BOTH ITS LOS AND RANGE
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                        PLAYER - STATUS
+                    </button>
+                </h2>
+                <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" value="" id="playerRadioInPlay">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            RADIO IN PLAY
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="playerBrokenUnit">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            BROKEN UNIT
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="playerEnemyWithinLOSandRange">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            ENEMY UNIT WITHIN BOTH ITS LOS AND RANGE
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                        BATTLE - STATUS
+                    </button>
+                </h2>
+                <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="meleeHex">
+                        <label class="form-check-label" for="flexCheckChecked">
+                            HEX CONTAIN UNITS BELONGING TO BOTH SIDES
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+    </div>
+    <div class="container-xxl" id="ordersSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span id="nationality">[NATIONALITY]</span> ORDER - <span class="activePlayer">[ACTIVE PLAYER]</span></h1>
+        <p></p>
+        <div id="combatBotOrdersSection">
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="combatBotOrderBtn">GIVE AN ORDER!</button>
+            </div>
+        </div>
+        <div id="playerOrdersSection">
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                <div class="col" id="moveOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="moveOrderBtn">MOVE</button>
+                        <div class="card-body">
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="advanceOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="advanceOrderBtn">ADVANCE</button>
+                        <div class="card-body">
+                            <p class="card-text"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="artilleryrequestOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="artilleryRequestOrderBtn">ARTILLERY REQUEST</button>
+                        <div class="card-body">
+                            <p class="card-text">THE <span class="activePlayer">[ACTIVE PLAYER]</span> NEED TO HAVE RADIO IN PLAY.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="artillerydeniedOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="artilleryDeniedOrderBtn">ARTILLERY DENIED</button>
+                        <div class="card-body">
+                            <p class="card-text">THE <span class="activePlayer">[ACTIVE PLAYER]</span> NEED TO HAVE RADIO IN PLAY.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="fireOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="fireOrderBtn">FIRE</button>
+                        <div class="card-body">
+                            <p class="card-text">AT LEAST ONE OF THE ACTIVATED UNITS (OR ITS WEAPON) MUST HAVE AN ENEMY UNIT WITHIN BOTH ITS LOS AND RANGE.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="recoverOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="recoverOrderBtn">RECOVER</button>
+                        <div class="card-body">
+                            <p class="card-text">THE <span class="activePlayer">[ACTIVE PLAYER]</span> NEED AT LEAST ONE BROKEN AND/OR SUPPRESSED UNIT IN PLAY</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="routOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="routOrderBtn">ROUT</button>
+                        <div class="card-body">
+                            <p class="card-text">THE PLAYER OR COMBAT BOT NEED AT LEAST ONE BROKEN UNIT IN PLAY [3.2]</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="passingOrderCard">
+                    <div class="card h-100">
+                        <button class="btn btn-dark" type="button" id="passingOrderBtn">PASSING</button>
+                        <div class="card-body">
+                            <p class="card-text">THE <span class="activePlayer">[ACTIVE PLAYER]</span> CHOOSES TO GIVE NO ORDERS DURING HIS TURN.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="noMoreOrderBtn">No more ORDER <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="moveSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS MOVING...</h1>
+        <div>
+            <p>STATUS AFTER MOVING INTO AN HEX</p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="waterHex">
+                <label class="form-check-label" for="flexCheckChecked">
+                    WATER HEX
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="alreadyContainFortification">
+                <label class="form-check-label" for="flexCheckChecked">
+                    FORTIFICATION
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="moveOrderBoxedFP">
+                <label class="form-check-label" for="flexCheckChecked">
+                    UNIT CURRENTLY ACTIVATED (OR ITS WEAPON) HAS BOXED FP
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="moveOrderEnemyWithinLOSandRangeOfActive">
+                <label class="form-check-label" for="flexCheckChecked">
+                    ENEMY WITHIN LOS AND RANGE OF <span class="activePlayer">[ACTIVE PLAYER]</span>'S UNIT
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="moveOrderEnemyWithinLOSandRangeOfNonActive">
+                <label class="form-check-label" for="flexCheckChecked">
+                    ENEMY WITHIN LOS AND RANGE OF <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span>'S UNIT
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="betterFPOfNonActive" disabled>
+                <label class="form-check-label" for="flexCheckChecked">
+                    BETTER FP THAN OTHER UNIT
+                </label>
+            </div>
+            <p></p>
+            <p>PRESS THE "MOVE" BUTTON EACH TIME THE UNIT MOVE OR ADVANCE INTO AN HEX</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="moveSectionMoveBtn">MOVE</button>
+            </div>
+            <p></p>
+            <p><span id="numberMovementDone"></span> MOVEMENT DONE</p>
+        </div>
+        <div id="moveOpFireSection">
+            <hr class="solid" />
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY USE OP FIRE [A33] AGAINST THE <span class="activePlayer">[ACTIVE PLAYER]</span>’S MOVING UNITS EACH TIME THEY ENTER A NEW HEX, WITH A NEW ACTION OR AN ALREADY ACTIVATED UNIT OR GROUP.</p>
+            <div id="combatBotOpFireSection">
+                <div class="card-group" id="unitGroupFireAttack">
+                </div>
+            </div>
+            <div id="playerOpFireSection">
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button class="btn btn-dark" type="button" id="moveSectionOpFireBtn">OP FIRE ATTACK</button>
+                </div>
+            </div>
+        </div>
+        <div id="hiddenWireMoveSection" style="display: none">
+            <hr class="solid" />
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "HIDDEN WIRE" AFTER ONE OR MORE UNITS MOVE OR ADVANCE (NOT RETREAT) INTO A HEX. THAT HEX CANNOT BE WATER TERRAIN NOR ALREADY CONTAIN A FORTIFICATION OF ANY TYPE.</p>
+            <div class="hidden-wire-action-effec border border-3 border-dark rounded" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>PLACE A WIRE MARKER [F106] INTO THAT HEX.</p>
+                </div>
+            </div>
+        </div>
+        <div id="hiddenMineMoveSection" style="display: none">
+            <hr class="solid" />
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "HIDDEN MINES" AFTER ONE OR MORE UNITS MOVE OR ADVANCE (NOT RETREAT) INTO A HEX. THAT HEX CANNOT BE WATER TERRAIN NOR ALREADY CONTAIN A FORTIFICATION OF ANY TYPE</p>
+            <div class="hidden-mine-action-effect border border-3 border-dark rounded" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>PLACE A MINES MARKER [F103] INTO THAT HEX. THE DEFENDER THEN MAKES A MINE ATTACK [F103.2] AGAINST EACH OF THOSE MOVING/ADVANCING UNITS.</p>
+                </div>
+            </div>
+        </div>
+        <div id="moveFireAssaultActionSection">
+            <hr class="solid" />
+            <p>THE <span class="activePlayer">[ACTIVE PLAYER]</span> MAY PLAY ASSAULT FIRE IF AT LEAST ONE UNIT CURRENTLY ACTIVATED TO MOVE (OR ITS WEAPON) HAS BOTH: </p>
+            <ul>
+                <li>BOXED FP, AND</li>
+                <li>AN ENEMY UNIT WITHIN ITS CURRENT RANGE AND LOS AT WHICH TO SHOOT.</li>
+            </ul>
+            <p>EACH ASSAULT FIRE ACTION ALLOWS A SINGLE FIRE ATTACK TO BE MADE. THIS ATTACK MAY FORM A FIRE GROUP USING ANY OR ALL MOVING UNITS AND/OR THEIR WEAPONS THAT HAVE BOXED FP. THE ATTACK OTHERWISE ADHERES TO ALL RULES AND RESTRICTIONS PERTAINING TO A REGULAR FIRE ATTACK AS IF MADE DURING A FIRE ORDER [O20].</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="fireAssaultBtn">FIRE ASSAULT</button>
+            </div>
+        </div>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="moveOrderCompleteBtn">MOVE ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="opFireSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> IS FIRING WITH UNIT OR GROUP...</h1>
+        <div id="readyToFireSection">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="opFireSectionFPCheck">
+                <label class="form-check-label" for="flexCheckChecked">
+                    FIRING WEAPON WITH PRINTED FP OF AT LEAST 5 (BEFORE ANY MODIFICATIONS).
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="opFireSectionFiringAdjacentHexCheck">
+                <label class="form-check-label" for="flexCheckChecked">
+                    FIRING AT ADJACENT HEX
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="opFireSectionAllFiringPiecesCheck">
+                <label class="form-check-label" for="flexCheckChecked">
+                    ALL FIRING PIECES MUST HAVE BOXED RANGE
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="opFireSectionAtLeast1MortarOrMGCheck">
+                <label class="form-check-label" for="flexCheckChecked">
+                    AT LEAST ONE MORTAR OR MG IS FIRING
+                </label>
+            </div>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="opFireSectionReadyFireBtn">READY TO FIRE</button>
+            </div>
+        </div>
+        <div id="opFireBoreSightingSection" style="display: none">
+            <hr class="solid" />
+            <h3>[A27] BORE SIGHTING</h3>
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "BORE SIGHTING" PRIOR TO MAKING A FIRE ATTACK ROLL INVOLVING A FIRING WEAPON WITH A PRINTED FP OF AT LEAST "5" (BEFORE ANY MODIFICATIONS).</p>
+            <div class="border border-3 border-dark rounded bore-sighting-action-effect" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                </div>
+            </div>
+        </div>
+        <div id="opFireCrossfireSection" style="display: none">
+            <hr class="solid" />
+            <h3>[A30] CROSSFIRE</h3>
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "CROSSFIRE" PRIOR TO MAKING A FIRE ATTACK ROLL, AND ONLY WHEN FIRING AT ONE OR MORE MOVING [O21] UNITS.</p>
+            <div class="border border-3 border-dark rounded crossfire-action-effect" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                </div>
+            </div>
+        </div>
+        <div id="opFireHiddenGrenadesSection" style="display: none">
+            <hr class="solid" />
+            <h3>[A34] HIDDEN GRENADES</h3>
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "HIDDEN GRENADES" PRIOR TO MAKING A FIRE ATTACK ROLL, AND ONLY IF ONE PIECE IS FIRING AT AN ADJACENT HEX.</p>
+            <div class="border border-3 border-dark rounded hidden-grenades-action-effect" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                </div>
+            </div>
+        </div>
+        <div id="opFireMarksmanshipSection" style="display:none">
+            <hr class="solid" />
+            <h3>[A37] MARKSMANSHIP</h3>
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "MARKSMANSHIP" PRIOR TO MAKING A FIRE ATTACK ROLL. THE ATTACK MUST INCLUDE A FIRING SQUAD OR TEAM OF THE INDICATED NATIONALITY.</p>
+            <div class="border border-3 border-dark rounded marksmanship-action-effect" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                </div>
+            </div>
+        </div>
+        <div id="opFireSprayFireSection" style="display:none">
+            <hr class="solid" />
+            <h3>[A40] SPRAY FIRE</h3>
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "SPRAY FIRE" PRIOR TO MAKING A FIRE ATTACK ROLL. ALL FIRING PIECES MUST HAVE BOXED RANGE.</p>
+            <p>THE TWO TARGETED HEXES MUST EACH:</p>
+            <ul>
+                <li><span style="color: cornflowerblue">BE WITHING RANGE OF ALL FIRING PIECES;</span></li>
+                <li>BE ADJACENT TO ONE ANOTHER;</li>
+                <li>CONTAIN AN ENEMY UNIT.</li>
+            </ul>
+            <p>FOR DETERMINING POSSIBLE OBSTACLES AND HINDRANCES IN INTERVENING HEXES, LOS MUST BE CHECKED FROM ALL FIRING PIECES TO BOTH HEXES.</p>
+            <div class="border border-3 border-dark rounded spray-fire-action-effect" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>THE FIRE ATTACK WILL AFFECT BOTH TARGETED HEXES SIMULTANEOUSLY. ONLY ONE FIRE ATTACK ROLL IS MADE, THOUGH ALL UNITS IN BOTH HEXES MUST MAKE FIRE DEFENSE ROLLS BASED ON THAT SINGLE ATTACK TOTAL.</p>
+                </div>
+            </div>
+        </div>
+        <div id="opFireSustainedFireSection" style="display:none">
+            <hr class="solid" />
+            <h3>[A41] SUSTAINED FIRE</h3>
+            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY PLAY "SUSTAINED FIRE" PRIOR TO MAKING A FIRE ATTACK ROLL IN WHICH AT LEAST ONE MORTAR OR MG IS FIRING.</p>
+            <div class="border border-3 border-dark rounded sustained-fire-action-effect" style="display:none">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK’S FP BY +2 BUT, IF THE FIRE ATTACK ROLL ENDS UP “DOUBLES”, ONE FIRING MORTAR OR MACHINE GUN MUST BREAK (FIRING PLAYER’S CHOICE IF MORE THAN ONE)</p>
+                </div>
+            </div>
+        </div>
+        <div id="opFireAttackSection" style="display:none">
+            <hr class="solid" />
+            <h3>[O20.3] FIRE ATTACK</h3>
+            <p>EACH PIECE THAT IS ACTIVATED TO FIRE MAY TAKE ONE SHOT AT ANY HEX WITHIN BOTH ITS RANGE AND LOS, EITHER ALONE OR AS PART OF A FIRE GROUP [O20.3.1]. AND THERE MUST BE AT LEAST ONE ENEMY UNIT IN A TARGETED HEX FOR THE SHOT TO OCCUR. </p>
+            <p><b>IMPORTANT—</b>UNITS (FRIENDLY OR ENEMY) IN AN INTERVENING HEX ARE NOT AFFECTED BY ANY FIRE ATTACK THAT PASSES THROUGH THEIR HEX.</p>
+            <div id="combatBotOpFireAttackSection" style="display:none">
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="opFireSectionFireAttackRollBtn">ROLL</button>
+                </div>
+                <p></p>
+                <div class="border border-3 border-dark rounded">
+                    <div class="p-3">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                        <div class="row">
+                            <div class="col-2">
+                                <h1 id="opFireSectionFireAttackResult"></h1>
+                            </div>
+                            <div class="col">
+                                <p id="opFireSectionFireAttackEvent"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p><b>[O20.3.3.1] JAMMED! TRIGGER—</b>IF A FIRE ATTACK ROLL RESULTS IN A JAMMED! TRIGGER, ALL FIRING WEAPONS BREAK. THIS DOES NOT CANCEL THE ATTACK NOR OTHERWISE REDUCE ITS EFFECTIVENESS (OTHER THAN THE FACT THAT JAMMED! TRIGGERS ARE FOUND ON EXTREMELY LOW ROLLS...).</p>
+            <div id="opFireConcealmentSection" style="display:none">
+                <hr class="solid" />
+                <h3>[A29] Concealment</h3>
+                <p>THE <span class="activePlayer">[ACTIVE PLAYER]</span> MAY PLAY "CONCEALMENT" PRIOR TO MAKING A DEFENSE ROLL.</p>
+                <div class="border border-3 border-dark rounded concealment-action-effect" style="display:none">
+                    <div class="p-3">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>DETERMINE THE COVER IN THE TARGETED HEX AND REDUCE THE FIRE ATTACK TOTAL BY THAT AMOUNT. IF THE FIRING PLAYER IS USING SPRAY FIRE [A40], THE COVER OF EITHER ONE OF THE TARGETED HEXES MAY BE USED. ALL COVER MODIFIERS – SUCH AS FOR ROADS [T93] OR A MORTAR ATTACKING UNITS IN FOXHOLES [F102] – ARE TAKEN INTO CONSIDERATION BEFORE REDUCING.</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="solid" />
+            <h3>[O20.3.4] FIRE DEFENSE ROLL</h3>
+            <p>THE <span class="activePlayer">[ACTIVE PLAYER]</span> HAS TO MAKE A FIRE DEFENSE ROLL – ONE AT A TIME IN ANY ORDER DESIRED – FOR EACH OF HIS UNITS THAT WERE IN A HEX AT THE MOMENT THAT A FIRE ATTACK ROLL WAS MADE AGAINST IT. ALL FIRE DEFENSE ROLLS FOR ONE ATTACK MUST BE MADE BEFORE THE NEXT ATTACK IS ANNOUNCED, EVEN IF THAT SAME HEX WILL BE TARGETED AGAIN.</p>
+            <div id="combatBotOpFireDefenseSection" style="display:none">
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="opFireSectionDefenseRollBtn">ROLL</button>
+                </div>
+                <p></p>
+                <div class="border border-3 border-dark rounded">
+                    <div class="p-3">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                        <div class="row">
+                            <div class="col-2">
+                                <h1 id="opFireSectionDefenseResult"></h1>
+                            </div>
+                            <div class="col">
+                                <p id="opFireSectionDefenseEvent"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p>A TARGETED UNIT’S MORALE – MODIFIED BY BOTH COVER [T78.3] AND COMMAND [3.3.1.2] – IS ADDED TO A DIE ROLL IN ORDER TO ARRIVE AT A “DEFENSE TOTAL”: </p>
+            <ul>
+                <li>IF THE DEFENSE TOTAL IS LESS THAN THE ATTACK TOTAL, THE UNIT BREAKS [3.2].</li>
+                <li>IF THE DEFENSE TOTAL IS EQUAL TO THE ATTACK TOTAL, THE UNIT BECOMES SUPPRESSED [13] UNLESS IT IS CURRENTLY ACTIVATED TO MOVE [O21]—IN WHICH CASE IT BREAKS INSTEAD OF SUPPRESSING.</li>
+                <li>IF THE DEFENSE TOTAL IS GREATER THAN THE ATTACK TOTAL, THE UNIT IS UNAFFECTED.</li>
+            </ul>
+            <hr class="solid" />
+            <div id="opFireSectionCombatBotLightWounds" style="display:none">
+                <h3>[A36] LIGHT WOUNDS</h3>
+                <p>THE <span class="activePlayer">[ACTIVE PLAYER]</span> MAY PLAY "LIGHT WOUNDS" AT THE INSTANT THAT A FRIENDLY SQUAD – EITHER BROKEN OR UNBROKEN – WOULD BREAK [3.2].</p>
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="opFireSectionLightWoundsBtn">LIGHT WOUNDS</button>
+                </div>
+                <div class="light-wounds-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>LOSE 1 VP. THEN, INSTEAD OF THAT SQUAD BREAKING <span style="color:cornflowerblue;  display:none">(OR INSTEAD OF IT BEING ELIMINATED DUE TO ALREADY BEING BROKEN)</span>, PLACE IT BACK INTO THE COUNTERMIX, RETRIEVING A TEAM FROM THE COUNTERMIX – OF THE SAME QUALITY AS THAT PLAYER’S OB: EITHER GREEN, LINE OR ELITE – AND PLACING IT INTO THE HEX FROM WHICH THE SQUAD WAS TAKEN. </p>
+                    <p>IF THE SQUAD WAS BROKEN WHEN IT WAS REMOVED, THE REPLACEMENT TEAM COMES INTO PLAY BROKEN. IF THERE WAS A WEAPON, SUPPRESSED OR VETERAN MARKER ON THE SQUAD, THE TEAM RETAINS THE MARKER. FINALLY, THE NEW TEAM’S ACTIVATION STATUS FOR THE TURN MATCHES THAT OF THE SQUAD IT REPLACED.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[6.1.2] GAME TIME ADVANCEMENT</h3>
+        <p>BOTH PLAYER MAY PLAY "DIG IN" Actions [A32].</p>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="opFireSectionUnitCanDigInCheck">
+            <label class="form-check-label" for="flexCheckChecked">
+                AT LEAST ONE COMBAT BOT'S UNIT IS IN A HEX WITHOUT WATER TERRAIN, BLAZE AND FORTIFICATION
+            </label>
+        </div>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="opFireSectionGameTimeAdvancementBtn">GAME TIME ADVANCEMENT</button>
+        </div>
+        <div class="dig-in-action-effect" style="display:none">
+            <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+            <p>THE COMBAT BOT PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+        </div>
+        <hr class="solid" />
+        <h3>[6.3] GAME END</h3>
+        <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+        <ol>
+            <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+            <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+        </ol>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="opFireSectionEndGameBtn">GAME END</button>
+        </div>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="opFireSectionFireAttackCompleteBtn">OP FIRE ATTACK complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="advanceSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS ADVANCING...</h1>
+        <hr class="solid" />
+        <p>AN ADVANCING UNIT MAY:</p>
+        <ul>
+            <li>ENTER AN ENEMY-OCCUPIED HEX;</li>
+            <li>EXIT OFF THE ENEMY BOARD EDGE;</li>
+            <li>CROSS A CLIFF HEXSIDE [T83] IF IT IS NOT CARRYING A WEAPON.</li>
+        </ul>
+        <p>AN ADVANCING UNIT MAY NOT:</p>
+        <ul>
+            <li>ENTER AN IMPASSABLE HEX [T79; T98];</li>
+            <li>ENTER OR EXIT A MAJOR BRIDGE HEX [T80.1] ACROSS ANYTHING OTHER THAN ITS ROAD/RAIL HEXSIDES;</li>
+            <li>EXIT OFF THE LEFT, RIGHT OR FRIENDLY BOARD EDGE.</li>
+        </ul>
+        <hr class="solid" />
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" value="" id="advanceSectionMeleeHex">
+            <label class="form-check-label" for="flexCheckChecked">
+                CHECK IF ONE OR MORE HEX CONTAINTS UNITS BELONGING TO BOTH SIDES BEFORE COMPLETING ORDER
+            </label>
+        </div>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="advanceOrderCompleteBtn">ADVANCE ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="meleeSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">MELEE OCCURS...</h1>
+        <div id="ambushSection">
+            <hr class="solid" />
+            <p>IF MORE THAN ONE HEX CONTAINS A MELEE, THE <span class="activePlayer">[ACTIVE PLAYER]</span> SELECTS THE ORDER IN WHICH THEY WILL BE RESOLVED, ONE AT A TIME.</p>
+            <!-- STEP 1 -->
+            <p id="advanceSectionStep1Ambush" style="display: none">THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> PLAY AND RESOLVED ANY "AMBUSH" ACTIONS [A25]</p>
+            <!-- STEP 2 -->
+            <p id="advanceSectionStep2Ambush" style="display: none">THE <span class="activePlayer">[ACTIVE PLAYER]</span> PLAY AND RESOLVED ANY "AMBUSH" ACTIONS [A25]</p>
+            <div id="ambushActionEffect" style="display: none">
+                <div class="border border-3 border-dark rounded">
+                    <div class="p-3">
+                        <p>THE PLAYER MUST SELECT <span id="nbrAmbushPlayed">[NBR OF AMBUSH PLAYED]</span> OF HIS UNITS THAT IS PARTICIPATING IN THE MELEE AND BREAK IT [3.2].</p>
+                    </div>
+                </div>
+                <p></p>
+                <p>THE PLAYER MAY PLAY "LIGHT WOUNDS" FOR EACH UNIT BECOMING BROKEN.</p>
+            </div>
+            <div id="meleeSectionPlayerAmbushCombatBot" style="display: none">
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="advanceSectionAmbushBtn">AMBUSH</button>
+                </div>
+                <p></p>
+                <div class="light-wounds-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>LOSE 1 VP. THEN, INSTEAD OF THAT SQUAD BREAKING <span style="color:cornflowerblue;  display:none">(OR INSTEAD OF IT BEING ELIMINATED DUE TO ALREADY BEING BROKEN)</span>, PLACE IT BACK INTO THE COUNTERMIX, RETRIEVING A TEAM FROM THE COUNTERMIX – OF THE SAME QUALITY AS THAT PLAYER’S OB: EITHER GREEN, LINE OR ELITE – AND PLACING IT INTO THE HEX FROM WHICH THE SQUAD WAS TAKEN. </p>
+                    <p>IF THE SQUAD WAS BROKEN WHEN IT WAS REMOVED, THE REPLACEMENT TEAM COMES INTO PLAY BROKEN. IF THERE WAS A WEAPON, SUPPRESSED OR VETERAN MARKER ON THE SQUAD, THE TEAM RETAINS THE MARKER. FINALLY, THE NEW TEAM’S ACTIVATION STATUS FOR THE TURN MATCHES THAT OF THE SQUAD IT REPLACED.</p>
+                </div>
+                <div class="light-wounds-action-effect-not-available" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>THE COMBAT BOT CANNOT PLAY "LIGHT WOUNDS"</p>
+                </div>
+            </div>
+            <div id="advanceSectionNextStep-1" style="display: none">
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="meleeSectionActiveNextPlayerAmbushBtn"><span class="activePlayer">[ACTIVE PLAYER]</span> CAN AMBUSH</button>
+                </div>
+            </div>
+            <p></p>
+            <div id="advanceSectionNextStep-2" style="display: none">
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="meleeSectionResolveMeleeBtn">RESOLVE THE MELEE</button>
+                </div>
+            </div>
+        </div>
+        <div id="meleeRollSection" style="display: none">
+            <hr class="solid" />
+            <p>BOTH PLAYERS ADDS UP THE CURRENT FP OF EACH OF HIS REMAINING UNITS – NOT WEAPONS – IN THE MELEE HEX, THEN ADDS +1 FOR EACH OF THOSE UNITS WITH A BOXED FP TO ARRIVE AT HIS “MELEE FP”.</p>
+            <p>BOTH PLAYERS MAKES A DIE ROLL AND ADDS IT TO HIS MELEE FP TO ARRIVE AT HIS “MELEE TOTAL”.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="meleeSectionMeleeRollBtn">MELEE ROLL</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                    <div class="row">
+                        <div class="col-2">
+                            <h1 id="meleeSectionMeleeRollResult"></h1>
+                        </div>
+                        <div class="col">
+                            <p id="meleeSectionMeleeEvent"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p>THE SIDE WITH THE LOWER MELEE TOTAL HAS ALL OF ITS PARTICIPATING UNITS ELIMINATED. IN CASE OF A TIE, BOTH SIDES ARE ELIMINATED UNLESS ONE PLAYER BEGAN THE MELEE IN A BUNKER [F101] OR PILLBOX [F104], IN WHICH CASE ONLY THE OTHER SIDE IS ELIMINATED.</p>
+            <p style="color: cornflowerblue">IF, DUE TO A TRIGGER DURING A MELEE ROLL, ONE OR BOTH SIDES HAVE NO UNITS REMAINING IN THE HEX, THE MELEE ENDS WITH NO FURTHER EFFECT.</p>
+        </div>
+        <hr class="solid" />
+        <h3>[A32] DIG IN</h3>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="playerAdvancingSectionDigInBtn">DIG IN</button>
+        </div>
+        <p>DIG IN MAY ONLY BE PLAYED AT THE END OF A GAME TIME ADVANCEMENT [6.1.2].</p>
+        <div class="dig-in-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+        <div class="dig-in-action-effect" style="display:none">
+            <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+            <p>PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+        </div>
+        <hr class="solid" />
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="playerAdvancingSectionEndGameBtn">GAME END</button>
+        </div>
+        <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+        <ol>
+            <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+            <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+        </ol>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="meleeCompleteBtn">MELEE complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="fireSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS FIRING...</h1>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="fireOrderCompleteBtn">FIRE ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="artilleryrequestSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS REQUESTING ARTILLERY...</h1>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="artilleryRequestOrderCompleteBtn">ARTILLERY REQUEST ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="artillerydeniedSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS DENYING ARTILLERY...</h1>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="artilleryDeniedOrderCompleteBtn">ARTILLERY DENIED ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="recoverSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS RECOVERING...</h1>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="recoverOrderCompleteBtn">RECOVER ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="routSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS ROUTING...</h1>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="routOrderCompleteBtn">ROUT ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="passSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> IS PASSING...</h1>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="passOrderCompleteBtn">PASS ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+
+    <!-- Players-->
+    <div class="container-xxl" id="playerSection" style="font-family: 'Courier Prime', monospace; display: none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER TURN - <span id="player_nationality">[NATIONALITY 2]</span></h1>
+        <p></p>
+        <p><b>O14.1 ACTIVATION—</b>TO PERFORM – OR “GIVE” – AN ORDER, THE ACTIVE PLAYER (ONLY) MUST REVEAL A CARD FROM HIS HAND AND ANNOUNCE THAT HE IS PERFORMING THE ORDER LISTED AT THE TOP. THE CARD IS THEN PLACED IN THE PLAYER’S DISCARD PILE. THEN, IF THAT PARTICULAR ORDER IS ONE THAT “ACTIVATES” SOMETHING, HE ACTIVATES ONE PLAYER OR FRIENDLY UNIT (AS APPROPRIATE FOR THE ORDER) THAT HAS NOT YET BEEN ACTIVATED THAT TURN TO PERFORM THE ORDER. IF A LEADER IS ACTIVATED IN THIS MANNER, IT MAY IN TURN ACTIVATE ALL, SOME OR NONE OF THE FRIENDLY NON-LEADER UNITS WITHIN ITS COMMAND RADIUS [3.3.1.1] TO PERFORM THE SAME ORDER—NONE OF WHICH CAN HAVE BEEN PREVIOUSLY ACTIVATED THAT TURN. ALL UNITS TO BE ACTIVATED FOR AN ORDER MUST BE IDENTIFIED BEFORE THE ORDER IS CARRIED OUT.</p>
+        <p><b>IMPORTANT—</b>NO ORDER MAY BE GIVEN WITHOUT THE PLAY OF A FATE CARD FROM THE HAND AND WITH THAT ORDER’S NAME LISTED ACROSS THE TOP. </p>
+        <p><b>O14.2—</b>AN ANNOUNCED ORDER MUST BE PERFORMED IN ITS ENTIRETY BEFORE THE NEXT ORDER IS GIVEN OR BEFORE THE PLAYER ANNOUNCES THE END OF HIS TURN. THIS INCLUDES ANY ACTIONS REQUIRING THAT ORDER TO BE IN EFFECT.</p>
+        <p></p>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerMoveOrderBtn">MOVE</button>
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerAdvanceOrderBtn">ADVANCE</button>
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerArtilleryRequestOrderBtn">ARTILLERY REQUEST</button>
+                    <div class="card-body">
+                        <p class="card-text">THE PLAYER NEED TO HAVE RADIO IN PLAY.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerArtilleryDeniedOrderBtn">ARTILLERY DENIED</button>
+                    <div class="card-body">
+                        <p class="card-text">THE COMBAT BOT NEED TO HAVE RADIO IN PLAY.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerFireOrderBtn">FIRE</button>
+                    <div class="card-body">
+                        <p class="card-text">AT LEAST ONE OF THE ACTIVATED UNITS (OR ITS WEAPON) MUST HAVE AN ENEMY UNIT WITHIN BOTH ITS LOS AND RANGE.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="playerRecoverOrderBtnSection">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerRecoverOrderBtn">RECOVER</button>
+                    <div class="card-body">
+                        <p class="card-text">THE PLAYER NEED AT LEAST ONE BROKEN AND/OR SUPPRESSED UNIT IN PLAY</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="playerRoutOrderBtnSection">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerRoutOrderBtn">ROUT</button>
+                    <div class="card-body">
+                        <p class="card-text">THE PLAYER OR COMBAT BOT NEED AT LEAST ONE BROKEN UNIT IN PLAY [3.2]</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col" id="playerPassingOrderBtnSection">
+                <div class="card h-100">
+                    <button class="btn btn-dark" type="button" id="playerPassingOrderBtn">PASSING</button>
+                    <div class="card-body">
+                        <p class="card-text">THE PLAYER CHOOSES TO GIVE NO ORDERS DURING HIS TURN.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="playerNoOrderBtn">No more ORDER <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="playerMoveSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS MOVING...</h1>
+        <p>O21.3 OPPORTUNITY FIRE &amp; MOVEMENT</p>
+        <p>THE COMBAT BOT MAY USE OP FIRE [A33] AGAINST THE ACTIVE PLAYER’S MOVING UNITS EACH TIME THEY ENTER A NEW HEX.</p>
+        <p>A FIRE ACTION MAY ONLY BE PLAYED DURING AN OPPONENT’S MOVE ORDER, AND ONLY JUST AFTER THE EXPENDITURE OF ONE OR MORE MPS AS A MOVING UNIT ENTERS A NEW HEX. THIS TYPE OF REACTIONARY FIRE IS TERMED “OP FIRE”</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button class="btn btn-dark" type="button" id="playerMoveSectionOpFireBtn">PLAY A FIRE ACTION TO CREATE A NEW UNIT OR GROUP READY TO FIRE</button>
+        </div>
+        <p></p>
+        <div class="card-group" id="unitGroupFireAttack">
+        </div>
+        <div id="hiddenWirePlayerMoveSection" style="display: none">
+            <hr class="solid" />
+            <p>HIDDEN WIRE MAY ONLY BE PLAYED AFTER ONE OR MORE UNITS MOVE OR ADVANCE (NOT RETREAT) INTO A HEX. THAT HEX CANNOT BE WATER TERRAIN NOR ALREADY CONTAIN A FORTIFICATION OF ANY TYPE.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerMoveSectionHiddenWireBtn">HIDDEN WIRE</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <div class="hidden-wire-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="bore-sighting-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="hiddenMinePlayerMoveSection" style="display: none">
+            <hr class="solid" />
+            <p>HIDDEN MINES MAY ONLY BE PLAYED AFTER ONE OR MORE UNITS MOVE OR ADVANCE (NOT RETREAT) INTO A HEX. THAT HEX CANNOT BE WATER TERRAIN NOR ALREADY CONTAIN A FORTIFICATION OF ANY TYPE</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerMoveSectionHiddenMineBtn">HIDDEN MINE</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <div class="hidden-wire-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="bore-sighting-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <hr class="solid" />
+            <p style="font-family: 'Courier Prime', monospace;">PLAYER POSSIBLE ACTION...</p>
+            <p>THE PLAYER MAY PLAY ASSAULT FIRE IF AT LEAST ONE UNIT CURRENTLY ACTIVATED TO MOVE (OR ITS WEAPON) HAS BOTH: </p>
+            <ul>
+                <li>BOXED FP, AND</li>
+                <li>AN ENEMY UNIT WITHIN ITS CURRENT RANGE AND LOS AT WHICH TO SHOOT.</li>
+            </ul>
+            <p>EACH ASSAULT FIRE ACTION ALLOWS A SINGLE FIRE ATTACK TO BE MADE. THIS ATTACK MAY FORM A FIRE GROUP USING ANY OR ALL MOVING UNITS AND/OR THEIR WEAPONS THAT HAVE BOXED FP. THE ATTACK OTHERWISE ADHERES TO ALL RULES AND RESTRICTIONS PERTAINING TO A REGULAR FIRE ATTACK AS IF MADE DURING A FIRE ORDER [O20].</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerFireAssaultBtn">FIRE ASSAULT</button>
+            </div>
+        </div>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="playerMoveOrderComplete">MOVE ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="combatBotOpFireSection" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">COMBAT BOT IS FIRING WITH UNIT OR GROUP <span id="unitGroupNumber"></span>...</h1>
+        <div id="combatBotOppFireSectionBoreSightingSection" style="display: none">
+            <h3>[A27] BORE SIGHTING</h3>
+            <p>THE COMBAT BOT MAY PLAY "BORE SIGHTING" PRIOR TO MAKING A FIRE ATTACK ROLL INVOLVING A FIRING WEAPON WITH A PRINTED FP OF AT LEAST "5" (BEFORE ANY MODIFICATIONS).</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button type="button" class="btn btn-dark" id="combatBotOpFireSectionBoreSightingBtn">BORE SIGHTING</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <div class="bore-sighting-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="bore-sighting-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[A30] CROSSFIRE</h3>
+        <p>THE COMBAT BOT MAY PLAY "CROSSFIRE" PRIOR TO MAKING A FIRE ATTACK ROLL, AND ONLY WHEN FIRING AT ONE OR MORE MOVING [O21] UNITS.</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionCrossfireBtn">CROSSFIRE</button>
+        </div>
+        <p></p>
+        <div class="border border-3 border-dark rounded">
+            <div class="p-3">
+                <div class="crossfire-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                <div class="crossfire-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[A34] HIDDEN GRENADES</h3>
+        <p>THE COMBAT BOT MAY PLAY "HIDDEN GRENADES" PRIOR TO MAKING A FIRE ATTACK ROLL, AND ONLY IF ONE PIECE IS FIRING AT AN ADJACENT HEX.</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionHiddenGrenadesBtn">HIDDEN GRENADES</button>
+        </div>
+        <p></p>
+        <div class="border border-3 border-dark rounded">
+            <div class="p-3">
+                <div class="hidden-grenades-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                <div class="hidden-grenades-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <div id="combatBotOppFireSectionMarksmanshipSection" style="display:none">
+            <h3>[A37] MARKSMANSHIP</h3>
+            <p>THE COMBAT BOT MAY PLAY "MARKSMANSHIP" PRIOR TO MAKING A FIRE ATTACK ROLL. THE ATTACK MUST INCLUDE A FIRING SQUAD OR TEAM OF THE INDICATED NATIONALITY.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button type="button" class="btn btn-dark" id="combatBotOpFireSectionMarksmanshipBtn">MARKSMANSHIP</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <div class="marksmanship-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="marksmanship-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>INCREASE THE FIRE ATTACK'S FP BY +2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[A40] SPRAY FIRE</h3>
+        <p>THE COMBAT BOT MAY PLAY "SPRAY FIRE" PRIOR TO MAKING A FIRE ATTACK ROLL. ALL FIRING PIECES MUST HAVE BOXED RANGE.</p>
+        <p>THE TWO TARGETED HEXES MUST EACH:</p>
+        <ul>
+            <li><span style="color: cornflowerblue">BE WITHING RANGE OF ALL FIRING PIECES;</span></li>
+            <li>BE ADJACENT TO ONE ANOTHER;</li>
+            <li>CONTAIN AN ENEMY UNIT.</li>
+        </ul>
+        <p>FOR DETERMINING POSSIBLE OBSTACLES AND HINDRANCES IN INTERVENING HEXES, LOS MUST BE CHECKED FROM ALL FIRING PIECES TO BOTH HEXES.</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionSprayFireBtn">SPRAY FIRE</button>
+        </div>
+        <p></p>
+        <div class="border border-3 border-dark rounded">
+            <div class="p-3">
+                <div class="spray-fire-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                <div class="spray-fire-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>THE FIRE ATTACK WILL AFFECT BOTH TARGETED HEXES SIMULTANEOUSLY. ONLY ONE FIRE ATTACK ROLL IS MADE, THOUGH ALL UNITS IN BOTH HEXES MUST MAKE FIRE DEFENSE ROLLS BASED ON THAT SINGLE ATTACK TOTAL.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[A41] SUSTAINED FIRE</h3>
+        <p>THE COMBAT BOT MAY PLAY "SUSTAINED FIRE" PRIOR TO MAKING A FIRE ATTACK ROLL IN WHICH AT LEAST ONE MORTAR OR MG IS FIRING.</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionSustainedFireBtn">SUSTAINED FIRE</button>
+        </div>
+        <p></p>
+        <div class="border border-3 border-dark rounded">
+            <div class="p-3">
+                <div class="sustained-fire-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                <div class="sustained-fire-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>INCREASE THE FIRE ATTACK’S FP BY +2 BUT, IF THE FIRE ATTACK ROLL ENDS UP “DOUBLES”, ONE FIRING MORTAR OR MACHINE GUN MUST BREAK (FIRING PLAYER’S CHOICE IF MORE THAN ONE)</p>
+                </div>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[O20.3] FIRE ATTACK</h3>
+        <p>EACH PIECE THAT IS ACTIVATED TO FIRE MAY TAKE ONE SHOT AT ANY HEX WITHIN BOTH ITS RANGE AND LOS, EITHER ALONE OR AS PART OF A FIRE GROUP [O20.3.1]. AND, UNLESS FIRING SMOKE [O20.2.1], THERE MUST BE AT LEAST ONE ENEMY UNIT IN A TARGETED HEX FOR THE SHOT TO OCCUR. </p>
+        <p><b>IMPORTANT—</b>UNITS (FRIENDLY OR ENEMY) IN AN INTERVENING HEX ARE NOT AFFECTED BY ANY FIRE ATTACK THAT PASSES THROUGH THEIR HEX.</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionFireAttackRollBtn">ROLL</button>
+        </div>
+        <p></p>
+        <div class="border border-3 border-dark rounded">
+            <div class="p-3">
+                <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                <div class="row">
+                    <div class="col-2">
+                        <h1 id="combatBotOpFireSectionRollResult"></h1>
+                    </div>
+                    <div class="col">
+                        <p id="combatBotOpFireSectionEvent"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <p><b>[O20.3.3.1] JAMMED! TRIGGER—</b>IF A FIRE ATTACK ROLL RESULTS IN A JAMMED! TRIGGER, ALL FIRING WEAPONS BREAK. THIS DOES NOT CANCEL THE ATTACK NOR OTHERWISE REDUCE ITS EFFECTIVENESS (OTHER THAN THE FACT THAT JAMMED! TRIGGERS ARE FOUND ON EXTREMELY LOW ROLLS...).</p>
+        <hr class="solid" />
+        <h3>[A32] DIG IN</h3>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionDigInBtn">DIG IN</button>
+        </div>
+        <p>DIG IN MAY ONLY BE PLAYED AT THE END OF A GAME TIME ADVANCEMENT [6.1.2].</p>
+        <div class="dig-in-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+        <div class="dig-in-action-effect" style="display:none">
+            <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+            <p>PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+        </div>
+        <hr class="solid" />
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="combatBotOpFireSectionEndGameBtn">GAME END</button>
+        </div>
+        <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+        <ol>
+            <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+            <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+        </ol>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="combatBotOpFireSectionFireAttackCompleteBtn">FIRE ATTACK complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div id="playerFireAssaultSection" class="container-xxl" style="font-family: 'Courier Prime', monospace; display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS ASSAULTING...</h1>
+        <h3>[A29] CONCEALMENT</h3>
+        <p>CONCEALMENT MAY ONLY BE PLAYED JUST PRIOR TO THE PLAYER MAKING A DEFENSE ROLL</p>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="playerFireAssaultSectionConcealmentBtn">CONCEALMENT</button>
+        </div>
+        <div class="concealment-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+        <div class="concealment-action-effect" style="display:none">
+            <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+            <p>DETERMINE THE COVER IN THE TARGETED HEX AND REDUCE THE FIRE ATTACK TOTAL BY THAT AMOUNT. IF THE PLAYER IS USING SPRAY FIRE [A40], THE COVER OF EITHER ONE OF THE TARGETED HEXES MAY BE USED. ALL COVER MODIFIERS – SUCH AS FOR ROADS [T93] OR A MORTAR ATTACKING UNITS IN FOXHOLES [F102] – ARE TAKEN INTO CONSIDERATION BEFORE REDUCING</p>
+        </div>
+        <div>
+            <hr class="solid" />
+            <h3>[O20.3.4] FIRE DEFENSE ROLL</h3>
+            <p>A PLAYER HAS TO MAKE A FIRE DEFENSE ROLL – ONE AT A TIME IN ANY ORDER DESIRED – FOR EACH OF HIS UNITS THAT WERE IN A HEX AT THE MOMENT THAT A FIRE ATTACK ROLL WAS MADE AGAINST IT. ALL FIRE DEFENSE ROLLS FOR ONE ATTACK MUST BE MADE BEFORE THE NEXT ATTACK IS ANNOUNCED, EVEN IF THAT SAME HEX WILL BE TARGETED AGAIN.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button type="button" class="btn btn-dark" id="playerFireAssaultSectionDefenseRollBtn">ROLL</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                    <div class="row">
+                        <div class="col-2">
+                            <h1 id="playerFireAssaultSectionRollResult"></h1>
+                        </div>
+                        <div class="col">
+                            <p id="playerFireAssaultSectionEvent"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p>A TARGETED UNIT’S MORALE – MODIFIED BY BOTH COVER [T78.3] AND COMMAND [3.3.1.2] – IS ADDED TO A DIE ROLL IN ORDER TO ARRIVE AT A “DEFENSE TOTAL”:</p>
+            <ul>
+                <li>IF THE DEFENSE TOTAL IS LESS THAN THE ATTACK TOTAL, THE UNIT BREAKS [3.2].</li>
+                <li>IF THE DEFENSE TOTAL IS EQUAL TO THE ATTACK TOTAL, THE UNIT BECOMES SUPPRESSED [13] UNLESS IT IS CURRENTLY ACTIVATED TO MOVE [O21] — IN WHICH CASE IT BREAKS INSTEAD OF SUPPRESSING.</li>
+                <li>IF THE DEFENSE TOTAL IS GREATER THAN THE ATTACK TOTAL, THE UNIT IS UNAFFECTED.</li>
+            </ul>
+        </div>
+        <hr class="solid" />
+        <div>
+            <h3>[A36] LIGHT WOUNDS</h3>
+            <p>LIGHT WOUNDS MAY ONLY BE PLAYED AT THE INSTANT THAT A FRIENDLY SQUAD – EITHER BROKEN OR UNBROKEN – WOULD BREAK [3.2].</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button type="button" class="btn btn-dark" id="playerFireAssaultSectionLightWoundsBtn">LIGHT WOUNDS</button>
+            </div>
+            <div class="light-wounds-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+            <div class="light-wounds-action-effect" style="display:none">
+                <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                <p>LOSE 1 VP. THEN, INSTEAD OF THAT SQUAD BREAKING <span style="color:cornflowerblue;  display:none">(OR INSTEAD OF IT BEING ELIMINATED DUE TO ALREADY BEING BROKEN)</span>, PLACE IT BACK INTO THE COUNTERMIX, RETRIEVING A TEAM FROM THE COUNTERMIX – OF THE SAME QUALITY AS THAT PLAYER’S OB: EITHER GREEN, LINE OR ELITE – AND PLACING IT INTO THE HEX FROM WHICH THE SQUAD WAS TAKEN. </p>
+                <p>IF THE SQUAD WAS BROKEN WHEN IT WAS REMOVED, THE REPLACEMENT TEAM COMES INTO PLAY BROKEN. IF THERE WAS A WEAPON, SUPPRESSED OR VETERAN MARKER ON THE SQUAD, THE TEAM RETAINS THE MARKER. FINALLY, THE NEW TEAM’S ACTIVATION STATUS FOR THE TURN MATCHES THAT OF THE SQUAD IT REPLACED.</p>
+            </div>
+        </div>
+        <hr class="solid" />
+        <h3>[A32] DIG IN</h3>
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="playerFireAssaultSectionDigInBtn">DIG IN</button>
+        </div>
+        <p>DIG IN MAY ONLY BE PLAYED AT THE END OF A GAME TIME ADVANCEMENT [6.1.2].</p>
+        <div class="dig-in-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+        <div class="dig-in-action-effect" style="display:none">
+            <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+            <p>PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+        </div>
+        <hr class="solid" />
+        <div class="d-grid gap-2 d-xxl-block">
+            <button type="button" class="btn btn-dark" id="playerFireAssaultSectionEndGameBtn">GAME END</button>
+        </div>
+        <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+        <ol>
+            <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+            <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+        </ol>
+        <hr class="solid" />
+        <button type="button" class="btn btn-link" id="playerFireAssaultCompleteBtn">FIRE ASSAULT complete <i class="bi bi-arrow-right-square-fill"></i></button>
+    </div>
+    <div class="container-xxl" id="playerAdvancingSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS ADVANCING...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>A UNIT THAT IS ACTIVATED TO ADVANCE CAN ENTER ONE OF THE SIX HEXES ADJACENT TO THE ONE IT CURRENTLY OCCUPIES, WHERE IT MUST STOP. THIS CAN BE DONE EVEN IF THE HEX IS ENEMY-OCCUPIED.</p>
+            <p>MPS AND TERRAIN MOVE COSTS ARE IGNORED DURING AN ADVANCE. IN ADDITION, THE INACTIVE PLAYER CAN NOT USE OP FIRE [A33] AGAINST ADVANCING UNITS.</p>
+            <p>AN ADVANCING UNIT MAY:</p>
+            <ul>
+                <li>ENTER AN ENEMY-OCCUPIED HEX;</li>
+                <li>EXIT OFF THE ENEMY BOARD EDGE;</li>
+                <li>CROSS A CLIFF HEXSIDE [T83] IF IT IS NOT CARRYING A WEAPON.</li>
+            </ul>
+            <p>AN ADVANCING UNIT MAY NOT:</p>
+            <ul>
+                <li>ENTER AN IMPASSABLE HEX [T79; T98];</li>
+                <li>ENTER OR EXIT A MAJOR BRIDGE HEX [T80.1] ACROSS ANYTHING OTHER THAN ITS ROAD/RAIL HEXSIDES;</li>
+                <li>EXIT OFF THE LEFT, RIGHT OR FRIENDLY BOARD EDGE.</li>
+            </ul>
+            <hr class="solid" />
+            <p>MELEE</p>
+            <p>AT THE END OF ANY ORDER OR DIE TRIGGER THAT CAUSES A HEX TO CONTAIN UNITS BELONGING TO BOTH SIDES, A MELEE ENSUES IN THAT HEX. IF MORE THAN ONE HEX CONTAINS A MELEE, THE ACTIVE PLAYER SELECTS THE ORDER IN WHICH THEY WILL BE RESOLVED, ONE AT A TIME.</p>
+            <hr class="solid" />
+            <p>MELEE STRENGTH</p>
+            <p>AFTER BOTH PLAYERS HAVE PLAYED AND RESOLVED ANY AMBUSH ACTIONS [A25], EACH ADDS UP THE CURRENT FP OF EACH OF HIS REMAINING UNITS – NOT WEAPONS – IN THE MELEE HEX, THEN ADDS +1 FOR EACH OF THOSE UNITS WITH A BOXED FP TO ARRIVE AT HIS “MELEE FP”.</p>
+            <p>IF, DUE TO AMBUSH ACTIONS, ONE OR BOTH SIDES HAVE NO UNITS REMAINING IN THE HEX, THE MELEE ENDS WITH NO FURTHER EFFECT.</p>
+            <hr class="solid" />
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerAdvancingSectionAmbushBtn">Ambush</button>
+            </div>
+            <p>AMBUSH MAY ONLY BE PLAYED BEFORE DICE ARE ROLLED DURING A MELEE. THE INACTIVE PLAYER MUST PLAY ALL THE AMBUSHES HE WISHES FOR THAT MELEE BEFORE THE ACTIVE PLAYER MAY PLAY HIS FIRST ONE.</p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <div class="ambush-action-declassified" style="color: darkred; font-family: 'Black Ops One', cursive; display: none">DECLASSIFIED</div>
+                    <div class="ambush-action-effect" style="display: none">
+                        <p>THE OPPONENT MUST SELECT ONE OF HIS UNITS THAT IS PARTICIPATING IN THE MELEE AND BREAK IT [3.2].</p>
+                        <p><b>IMPORTANT</b> - ALL AMBUSH EFFECTS ARE RESOLVED BEFORE MELEE FP IS CALCULATED.</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="solid" />
+            <p>THE INACTIVE PLAYER MAKES A DIE ROLL AND ADDS IT TO HIS MELEE FP TO ARRIVE AT HIS “MELEE TOTAL”.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerAdvancingSectionCombatBotMeleeBtn">MELEE ROLL</button>
+            </div>
+            <p></p>
+            <div class="border border-3 border-dark rounded">
+                <div class="p-3">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                    <div class="row">
+                        <div class="col-2">
+                            <h1 id="playerAdvancingSectionRollResult"></h1>
+                        </div>
+                        <div class="col">
+                            <p id="playerAdvancingSectionEvent"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <p>THE SIDE WITH THE LOWER MELEE TOTAL HAS ALL OF ITS PARTICIPATING UNITS ELIMINATED. IN CASE OF A TIE, BOTH SIDES ARE ELIMINATED UNLESS ONE PLAYER BEGAN THE MELEE IN A BUNKER [F101] OR PILLBOX [F104], IN WHICH CASE ONLY THE OTHER SIDE IS ELIMINATED.</p>
+            <p style="color: cornflowerblue">IF, DUE TO A TRIGGER DURING A MELEE ROLL, ONE OR BOTH SIDES HAVE NO UNITS REMAINING IN THE HEX, THE MELEE ENDS WITH NO FURTHER EFFECT.</p>
+            <hr class="solid" />
+            <h3>[A32] DIG IN</h3>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button type="button" class="btn btn-dark" id="playerAdvancingSectionDigInBtn">DIG IN</button>
+            </div>
+            <p>DIG IN MAY ONLY BE PLAYED AT THE END OF A GAME TIME ADVANCEMENT [6.1.2].</p>
+            <div class="dig-in-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+            <div class="dig-in-action-effect" style="display:none">
+                <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                <p>PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+            </div>
+            <hr class="solid" />
+            <div class="d-grid gap-2 d-xxl-block">
+                <button type="button" class="btn btn-dark" id="playerAdvancingSectionEndGameBtn">GAME END</button>
+            </div>
+            <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+            <ol>
+                <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+                <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+                <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+                <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+            </ol>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerAdvanceOrderCompleteBtn">ADVANCE ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerArtilleryRequestSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS REQUESTING ARTILLERY...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>WHEN AN ARTILLERY REQUEST ORDER IS GIVEN, THAT PLAYER MUST CHOOSE TO PERFORM ONE OF EITHER “BATTERY ACCESS” OR “FIRE FOR EFFECT”. BATTERY ACCESS MAY ONLY BE CHOSEN IF HE HAS A BROKEN RADIO [12] IN PLAY. FIRE FOR EFFECT MAY ONLY BE CHOSEN IF HE HAS BOTH AN UNBROKEN RADIO IN PLAY AND AN UNBROKEN LEADER IN PLAY THAT HAS YET TO BE ACTIVATED THIS TURN. IF NEITHER OF THESE CONDITIONS EXIST, THE ORDER CANNOT BE GIVEN.</p>
+            <div>
+                <hr class="solid" />
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="playerBatteryAccessBtn">BATTERY ACCESS</button>
+                </div>
+            </div>
+            <div>
+                <hr class="solid" />
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="playerFireForEffectBtn">FIRE FOR EFFECT</button>
+                </div>
+            </div>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerArtilleryRequestOrderCompleteBtn">ARTILLERY REQUEST ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerBatteryAccessSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS ACCESSING BATTERY...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>THE PLAYER SIMPLY ‘FIXES’ HIS BROKEN RADIO BY FLIPPING IT BACK OVER TO ITS UNBROKEN SIDE, READY FOR IMMEDIATE USE.</p>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerBatteryAccessCompleteBtn">ARTILLERY REQUEST ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerFireForEffectSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS FIRING WITH ARTILLERY...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>THE PLAYER ACTIVATES ONE OF HIS UNBROKEN LEADERS (ONLY). THIS LEADER WILL ACT AS THE “SPOTTER” FOR THE ENSUING BOMBARDMENT. THE PLAYER THEN PERFORMS THE FOLLOWING THREE STEPS, IN THE EXACT ORDER GIVEN:</p>
+            <hr class="solid" />
+            <h3>1. SPOTTING</h3>
+            <p>FIRST, THE PLAYER PLACE THE SPOTTING ROUND (SR) INTO ANY HEX WITHIN THE LOS OF THE SPOTTER: THIS WILL INDICATE THE HEX THAT IS TO BE THE INTENDED CENTER OF THE ARTILLERY BOMBARDMENT. THIS HEX CAN BE AN OTHERWISE IMPASSABLE HEX (SUCH AS A BLAZE OR WATER BARRIER).</p>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="smokeRoundsCheck" checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    SMOKE ROUNDS
+                </label>
+            </div>
+            <hr class="solid" />
+            <h3>2. ACCURACY</h3>
+            <p>ONCE THE SR HAS BEEN PLACED, THE PLAYER MAKE A NORMAL TARGETING ROLL [O20.2.3] USING THE RANGE BETWEEN THE SPOTTER AND THE SR’S CURRENT HEX. THIS ROLL IS MODIFIED BY ANY HINDRANCES ALONG THE WAY, AS USUAL [10.3.1].</p>
+            <div>
+                <div class="row">
+                    <div class="col-2">
+                        HIT
+                    </div>
+                    <div class="col">
+                        IF THE TARGETING ROLL SECURES A ‘HIT,’ THE ARTILLERY IS ACCURATE. REVEAL THE TOP CARD OF THE FATE DECK AND IGNORE EVERYTHING BUT THE TWO DICE (THIS IS NOT A ROLL, SO NO DIE TRIGGERS). USING THE HEX-COMPASS ON THE MAP, EACH DIE WILL GIVE THE DIRECTION IN WHICH THE SR WILL ERR: THE SR MOVES ONE HEX IN THE WHITE DIE’S DIRECTION, THEN IT MOVES ONE HEX IN THE COLORED DIE’S DIRECTION.
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        MISS
+                    </div>
+                    <div class="col">
+                        IF THE TARGETING ROLL WAS A ‘MISS,’ THE ARTILLERY IS INACCURATE. REVEAL THE TOP CARD OF THE FATE DECK AND IGNORE EVERYTHING BUT THE TWO DICE (THIS IS NOT A ROLL, SO NO DIE TRIGGERS). USING THE HEX-COMPASS ON THE MAP, THE FIRST (WHITE) DIE GIVES THE DIRECTION IN WHICH THE SR WILL ERR. THE SECOND (COLORED) DIE IS THE DISTANCE IN HEXES THE SR WILL TRAVEL IN THAT DIRECTION
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        OFF-MAP
+                    </div>
+                    <div class="col">
+                        ANY SR THAT ERRS OFF THE MAP – EVEN IF JUST BRIEFLY – IS REMOVED WITH NO FURTHER EFFECT AND THE ORDER ENDS. AND, DUE TO ARTILLERY’S 7-HEX BLAST AREA (SEE BELOW), A SR CAN OCCUPY AN OTHERWISE IMPASSABLE HEX (SUCH AS A BLAZE OR WATER BARRIER).
+                    </div>
+                </div>
+            </div>
+            <hr class="solid" />
+            <h3>IMPACT</h3>
+            <p>THE HEX INTO WHICH THE SR FINALLY LANDS BECOMES THE CENTER HEX OF THE ACTIVATED RADIO’S ARTILLERY IMPACT AREA; IN OTHER WORDS, THE SR’S HEX AND EACH ADJACENT HEX WILL BE AFFECTED. THE ACTIVE PLAYER DETERMINES THE ORDER IN WHICH THESE SEVEN HEXES ARE ATTACKED, THOUGH EACH MAY ONLY HAVE A MAXIMUM OF ONE SUCH IMPACT ROLL MADE AGAINST IT.</p>
+            <div id="playerFireForEffectSmokeBarrageSection">
+                <p style="color:darkred; font-family: 'Black Ops One', cursive;">SMOKE BARRAGE</p>
+                <p>IF, DURING THE SPOTTING STEP, THE ACTIVE PLAYER ANNOUNCED “SMOKE” INSTEAD OF A NORMAL ARTILLERY BARRAGE, HE SIMPLY PLACES SEVEN RANDOM SMOKE MARKERS ON THE MAP—ONE INTO THE HEX OCCUPIED BY THE SR AND ONE IN EACH ADJACENT HEX. THIS ENDS THE ORDER: REMOVE THE SR FROM THE MAP</p>
+            </div>
+            <div id="playerFireForEffectArtilleryBarrageSection" style="display: none">
+                <p style="color:darkred; font-family: 'Black Ops One', cursive;">ARTILLERY BARRAGE</p>
+                <p>THEN EACH HEX WITHIN THE IMPACT AREA THAT CONTAINS AT LEAST ONE UNIT OR FORTIFICATION MUST HAVE A SEPARATE ARTILLERY IMPACT ROLL MADE AGAINST IT.</p>
+                <p>AN ARTILLERY IMPACT ROLL FOLLOWS THE SAME RULES AND RESTRICTIONS AS FOR A FIRE ATTACK ROLL [O20.3.3 AND O20.3.4] BUT, BECAUSE RADIOS ARE NOT WEAPONS, A “JAMMED!” TRIGGER WILL NOT BREAK THE RADIO.</p>
+                <p><b>vs FORTIFICATIONS</b> - THE <b>ARTILLERY</b> BOX ON THE TRACK DISPLAY LISTS A “FORTIFICATION VULNERABILITY” NUMBER FOR EACH RADIO FP IF AN ARTILLERY IMPACT ROLL IS EXACTLY EQUAL TO THE FORTIFICATION VULNERABILITY NUMBER ASSOCIATED WITH THAT RADIO’S FP, THEN ANY FORTIFICATION IN THE TARGETED HEX IS DESTROYED BEFORE ANY UNITS THEREIN MAKE THEIR FIRE DEFENSE ROLLS.</p>
+                <div>
+                    <hr class="solid" />
+                    <p>CONCEALMENT MAY ONLY BE PLAYED JUST PRIOR TO THE PLAYER MAKING A DEFENSE ROLL</p>
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireSectionConcealmentBtn">CONCEALMENT</button>
+                    </div>
+                    <div class="concealment-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="concealment-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>DETERMINE THE COVER IN THE TARGETED HEX AND REDUCE THE FIRE ATTACK TOTAL BY THAT AMOUNT. IF THE FIRING PLAYER IS USING SPRAY FIRE [A40], THE COVER OF EITHER ONE OF THE TARGETED HEXES MAY BE USED. ALL COVER MODIFIERS – SUCH AS FOR ROADS [T93] OR A MORTAR ATTACKING UNITS IN FOXHOLES [F102] – ARE TAKEN INTO CONSIDERATION BEFORE REDUCING</p>
+                    </div>
+                </div>
+                <hr class="solid" />
+                <p>THE COMBAT BOT HAS TO MAKE A FIRE DEFENSE ROLL – ONE AT A TIME IN ANY ORDER DESIRED – FOR EACH OF HIS UNITS THAT WERE IN A HEX ATTACKED.</p>
+                <p></p>
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="playerFireForEffectSectioncombatBotDefenseRollBtn">DEFENSE ROLL</button>
+                </div>
+                <p></p>
+                <div class="border border-3 border-danger rounded">
+                    <div class="p-3">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                        <div class="row">
+                            <div class="col-2">
+                                <h1 id="playerFireForEffectSectionRollResult"></h1>
+                            </div>
+                            <div class="col">
+                                <p id="playerFireForEffectSectionEvent"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <p>A TARGETED UNIT’S MORALE – MODIFIED BY BOTH COVER [T78.3] AND COMMAND [3.3.1.2] – IS ADDED TO A DIE ROLL IN ORDER TO ARRIVE AT A “DEFENSE TOTAL”:</p>
+                <ol>
+                    <li>IF THE DEFENSE TOTAL IS LESS THAN THE ATTACK TOTAL, THE UNIT BREAKS [3.2].</li>
+                    <li>IF THE DEFENSE TOTAL IS EQUAL TO THE ATTACK TOTAL, THE UNIT BECOMES SUPPRESSED [13] UNLESS IT IS CURRENTLY ACTIVATED TO MOVE [O21] — IN WHICH CASE IT BREAKS INSTEAD OF SUPPRESSING.</li>
+                    <li>IF THE DEFENSE TOTAL IS GREATER THAN THE ATTACK TOTAL, THE UNIT IS UNAFFECTED.</li>
+                </ol>
+                <div>
+                    <hr class="solid" />
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireForEffectSectioncombatBotLightWoundsBtn">LIGHT WOUNDS</button>
+                    </div>
+                    <p>LIGHT WOUNDS MAY ONLY BE PLAYED AT THE INSTANT THAT A FRIENDLY SQUAD – EITHER BROKEN OR UNBROKEN – WOULD BREAK [3.2].</p>
+                    <div class="light-wounds-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="light-wounds-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>LOSE 1 VP. THEN, INSTEAD OF THAT SQUAD BREAKING <span style="color:cornflowerblue;  display:none">(OR INSTEAD OF IT BEING ELIMINATED DUE TO ALREADY BEING BROKEN)</span>, PLACE IT BACK INTO THE COUNTERMIX, RETRIEVING A TEAM FROM THE COUNTERMIX – OF THE SAME QUALITY AS THAT PLAYER’S OB: EITHER GREEN, LINE OR ELITE – AND PLACING IT INTO THE HEX FROM WHICH THE SQUAD WAS TAKEN. </p>
+                        <p>IF THE SQUAD WAS BROKEN WHEN IT WAS REMOVED, THE REPLACEMENT TEAM COMES INTO PLAY BROKEN. IF THERE WAS A WEAPON, SUPPRESSED OR VETERAN MARKER ON THE SQUAD, THE TEAM RETAINS THE MARKER. FINALLY, THE NEW TEAM’S ACTIVATION STATUS FOR THE TURN MATCHES THAT OF THE SQUAD IT REPLACED.</p>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <hr class="solid" />
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="playerFireForEffectSectioncombatBotDigInBtn">DIG IN</button>
+                </div>
+                <p>DIG IN MAY ONLY BE PLAYED AT THE END OF A GAME TIME ADVANCEMENT [6.1.2].</p>
+                <div class="dig-in-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                <div class="dig-in-action-effect" style="display:none">
+                    <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                    <p>PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+                </div>
+                <hr class="solid" />
+            </div>
+            <div>
+                <div class="d-grid gap-2 d-xxl-block">
+                    <button type="button" class="btn btn-dark" id="playerFireForEffectSectionEndGameBtn">GAME END</button>
+                </div>
+                <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+                <ol>
+                    <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+                    <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+                    <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+                    <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+                </ol>
+            </div>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerFireForEffectCompleteBtn">ARTILLERY REQUEST ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerArtilleryDeniedSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS DENYING ARTILLERY...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>WHEN AN ARTILLERY DENIED ORDER IS GIVEN, THE PLAYER SIMPLY CAUSES HIS OPPONENT’S RADIO [12] TO BREAK. IF THE RADIO WAS ALREADY BROKEN, ELIMINATE IT INSTEAD. AN ELIMINATED RADIO IS ALWAYS PLACED BACK INTO THE COUNTER MIX RATHER THAN ON THE CASUALTY TRACK.</p>
+            <p><span style="color:cornflowerblue">NOTHING</span> IS ACTIVATED DURING AN ARTILLERY DENIED ORDER, THOUGH THERE MUST BE AN ENEMY RADIO IN PLAY FOR THE ORDER TO BE ANNOUNCED.</p>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerArtilleryDeniedOrderCompleteBtn">ARTILLERY DENIED ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerFireSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS FIRING...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>EACH PIECE THAT IS ACTIVATED TO FIRE MAY TAKE ONE SHOT AT ANY HEX WITHIN BOTH ITS RANGE AND LOS, EITHER ALONE OR AS PART OF A FIRE GROUP [O20.3.1]. AND, UNLESS FIRING SMOKE [O20.2.1], THERE MUST BE AT LEAST ONE ENEMY UNIT IN A TARGETED HEX FOR THE SHOT TO OCCUR.</p>
+            <p><b>IMPORTANT</b> - UNITS (FRIENDLY OR ENEMY) IN AN INTERVENING HEX ARE NOT AFFECTED BY ANY FIRE ATTACK THAT PASSES THROUGH THEIR HEX.</p>
+            <p>REPEAT FOR EACH UNIT...</p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="playerFireSectionUnitSelection" value="1" id="otherUnit" checked>
+                <label class="form-check-label" for="otherUnit">
+                    OTHER
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="playerFireSectionUnitSelection" value="2" id="ordnanceUnit">
+                <label class="form-check-label" for="ordnanceUnit">
+                    <b>ORDNANCE</b> - WEAPONS WITH A WHITE BAND MUST ALWAYS FIRE ALONE AND THUS CAN NEVER BE ASSIGNED AS PART OF A FIRE GROUP.
+                </label>
+            </div>
+            <div id="playerFireSectionOrdnance" style="display: none">
+                <hr class="solid" />
+                <h3>ORDNANCE &amp; TARGETING</h3>
+                <p>ALL ORDNANCE WEAPONS [11.5] MUST FIRST SECURE A HIT AGAINST THE TARGETED HEX BEFORE MAKING A FIRE ATTACK ROLL AGAINST IT.</p>
+                <p>GENERALLY, THE RANGE BETWEEN THE FIRING ORDNANCE AND THE TARGET HEX IS DETERMINED, THEN A TARGETING ROLL IS MADE TO SEE IF THE WEAPON HITS AND, IF SO, A FIRE ATTACK ROLL [O20.3.3] IS THEN MADE USING THAT WEAPON’S FP.</p>
+                <p>SOME WEAPONS ARE ABLE TO PLACE A SMOKE MARKER IN THE TARGETED HEX (AS INDICATED BY THE WORD “SMOKE” TO THE RIGHT OF THE WEAPON’S ILLUSTRATION) INSTEAD OF MAKING A NORMAL FIRE ATTACK ROLL. ORDNANCE IS ALLOWED TO TARGET ANY HEX WITHIN ITS RANGE – EVEN ONE CONTAINING NO ENEMY UNITS – IF IT WILL PLACE SMOKE THIS WAY. THE ACTIVE PLAYER MUST DECLARE THIS DECISION ALOUD WHEN HE SELECTS THE TARGET HEX, PRIOR TO MAKING THE TARGETING ROLL.</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="playerFireSectionSmokeRoundsCheck">
+                    <label class="form-check-label" for="flexCheckChecked">
+                        SMOKE ROUNDS
+                    </label>
+                </div>
+                <div>
+                    <hr class="solid" />
+                    <h3> TARGETING RANGE</h3>
+                    <p>DETERMINE THE RANGE BY COUNTING THE NUMBER OF HEXES FROM THE FIRING UNIT TO ITS TARGET HEX – INCLUDING THE TARGET HEX BUT EXCLUDING THE FIRING UNIT’S HEX. IF THIS RANGE IS GREATER THAN THE PRINTED RANGE ON THE FIRING WEAPON, THE SHOT CANNOT BE ATTEMPTED IN THE FIRST PLACE</p>
+                </div>
+                <div>
+                    <hr class="solid" />
+                    <h3>TARGETING ROLL</h3>
+                    <p>ONCE THE RANGE IS DETERMINED, THE ACTIVE PLAYER MUST MAKE A DIE ROLL – BUT MULTIPLYING THE TWO DICE TOGETHER RATHER THAN ADDING THEM TOGETHER AS WITH OTHER ROLLS – THAT IS GREATER THAN THE RANGE IN ORDER TO HIT THE TARGETED HEX. ANY OTHER RESULT IS A MISS AND THE ATTACK IS CANCELLED WITH NO FURTHER EFFECT.</p>
+                    <p><b>TARGETING & HINDRANCES</b> - TARGETING ROLLS ARE ALWAYS MODIFIED BY ANY RELEVANT HINDRANCE ALONG THE WAY [10.3.1].</p>
+                </div>
+                <div id="playerFireSectionSmokeRounds" style="display: none">
+                    <hr class="solid" />
+                    <h3>SMOKE HEX</h3>
+                    <p>IF SMOKE PLACEMENT IS ANNOUNCED IN THIS MANNER, THEN A SUCCESSFUL TARGETING ROLL WILL SIMPLY PLACE A RANDOM SMOKE MARKER INTO THE TARGETED HEX INSTEAD OF USING THE WEAPON’S FP TO MAKE A FIRE ATTACK ROLL AGAINST IT</p>
+                </div>
+            </div>
+            <div id="playerFireSectionOther">
+                <hr class="solid" />
+                <h3>FIRE GROUPS</h3>
+                <p>TWO OR MORE ACTIVATED UNITS/WEAPONS (OR “PIECES”) MAY FIRE TOGETHER BY COMBINING INTO A FIRE GROUP. EVERY PIECE IN A FIRE GROUP MUST HAVE BOTH AN UNOBSTRUCTED LOS TO THE TARGET HEX AND BE WITHIN RANGE OF THAT HEX FOR THE FIRE ATTACK ROLL TO BE MADE. FURTHERMORE, IF UNITS IN A FIRE GROUP OCCUPY MORE THAN ONE HEX, EACH SUCH HEX MUST BE ADJACENT TO AT LEAST ONE OTHER (SO THAT IT FORMS A “CHAIN” OF ADJACENT FIRING UNITS).</p>
+                <p><b>ORDNANCE</b> - WEAPONS WITH A WHITE BAND MUST ALWAYS FIRE ALONE AND THUS CAN NEVER BE ASSIGNED AS PART OF A FIRE GROUP</p>
+                <p><b>GROUP FP</b> - THE TOTAL FP OF A FIRE GROUP IS X+Y, WHERE X IS THE FP OF ONE FIRING PIECE AND Y IS THE NUMBER OF OTHER FIRING PIECES [SEE “C” IN THE FIRE ATTACK EXAMPLE ON PAGE 13 OF THE RULEBOOK].</p>
+                <hr class="solid" />
+                <h3>ATTACK HINDRANCES</h3>
+                <p>IF THE LOS FROM ANY NON-ORDNANCE FIRING PIECE AND THE TARGET HEX IS HINDERED [10.3], THAT SHOT’S FP IS REDUCED BY THE LARGEST SUCH HINDRANCE. IF THIS WOULD MODIFY THE ATTACK’S TOTAL FP TO ZERO OR LESS, THE SHOT CANNOT EVEN BE ATTEMPTED, THOUGH THE FIRING PIECE(S) COULD STILL ATTEMPT A DIFFERENT SHOT WITH A LESSER (OR NO) HINDRANCE.</p>
+            </div>
+            <div id="nonSmokeAttackSection">
+                <hr class="solid" />
+                <div>
+                    <h3>FIRE ATTACK ROLL</h3>
+                    <p>ONCE THE FINAL FP IS DETERMINED, THE FIRING PLAYER MAKES A ROLL AND ADDS IT TO THE FINAL FP TO ARRIVE AT AN “ATTACK TOTAL”.</p>
+                    <p><b>JAMMED! TRIGGER</b> - IF A FIRE ATTACK ROLL RESULTS IN A JAMMED! TRIGGER, ALL FIRING WEAPONS BREAK. THIS DOES NOT CANCEL THE ATTACK NOR OTHERWISE REDUCE ITS EFFECTIVENESS (OTHER THAN THE FACT THAT JAMMED! TRIGGERS ARE FOUND ON EXTREMELY LOW ROLLS...).</p>
+                </div>
+                <div>
+                    <hr class="solid" />
+                    <p>CONCEALMENT MAY ONLY BE PLAYED JUST PRIOR TO THE PLAYER MAKING A DEFENSE ROLL</p>
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireSectionConcealment">CONCEALMENT</button>
+                    </div>
+                    <div class="concealment-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="concealment-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>DETERMINE THE COVER IN THE TARGETED HEX AND REDUCE THE FIRE ATTACK TOTAL BY THAT AMOUNT. IF THE FIRING PLAYER IS USING SPRAY FIRE [A40], THE COVER OF EITHER ONE OF THE TARGETED HEXES MAY BE USED. ALL COVER MODIFIERS – SUCH AS FOR ROADS [T93] OR A MORTAR ATTACKING UNITS IN FOXHOLES [F102] – ARE TAKEN INTO CONSIDERATION BEFORE REDUCING</p>
+                    </div>
+                </div>
+                <div>
+                    <hr class="solid" />
+                    <h3>FIRE DEFENSE ROLL</h3>
+                    <p>A PLAYER HAS TO MAKE A FIRE DEFENSE ROLL – ONE AT A TIME IN ANY ORDER DESIRED – FOR EACH OF HIS UNITS THAT WERE IN A HEX AT THE MOMENT THAT A FIRE ATTACK ROLL WAS MADE AGAINST IT. ALL FIRE DEFENSE ROLLS FOR ONE ATTACK MUST BE MADE BEFORE THE NEXT ATTACK IS ANNOUNCED, EVEN IF THAT SAME HEX WILL BE TARGETED AGAIN.</p>
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireSectionDefenseRollBtn">ROLL</button>
+                    </div>
+                    <div>
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                        <div class="row">
+                            <div class="col-2">
+                                <h1 id="playerFireSectionRollResult"></h1>
+                            </div>
+                            <div class="col">
+                                <p id="playerFireSectionEvent"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <p>A TARGETED UNIT’S MORALE – MODIFIED BY BOTH COVER [T78.3] AND COMMAND [3.3.1.2] – IS ADDED TO A DIE ROLL IN ORDER TO ARRIVE AT A “DEFENSE TOTAL”:</p>
+                    <ul>
+                        <li>IF THE DEFENSE TOTAL IS LESS THAN THE ATTACK TOTAL, THE UNIT BREAKS [3.2].</li>
+                        <li>IF THE DEFENSE TOTAL IS EQUAL TO THE ATTACK TOTAL, THE UNIT BECOMES SUPPRESSED [13] UNLESS IT IS CURRENTLY ACTIVATED TO MOVE [O21] — IN WHICH CASE IT BREAKS INSTEAD OF SUPPRESSING.</li>
+                        <li>IF THE DEFENSE TOTAL IS GREATER THAN THE ATTACK TOTAL, THE UNIT IS UNAFFECTED.</li>
+                    </ul>
+                </div>
+                <hr class="solid" />
+                <div>
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireSectionLightWoundsBtn">LIGHT WOUNDS</button>
+                    </div>
+                    <p>LIGHT WOUNDS MAY ONLY BE PLAYED AT THE INSTANT THAT A FRIENDLY SQUAD – EITHER BROKEN OR UNBROKEN – WOULD BREAK [3.2].</p>
+                    <div class="light-wounds-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="light-wounds-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>LOSE 1 VP. THEN, INSTEAD OF THAT SQUAD BREAKING <span style="color:cornflowerblue;  display:none">(OR INSTEAD OF IT BEING ELIMINATED DUE TO ALREADY BEING BROKEN)</span>, PLACE IT BACK INTO THE COUNTERMIX, RETRIEVING A TEAM FROM THE COUNTERMIX – OF THE SAME QUALITY AS THAT PLAYER’S OB: EITHER GREEN, LINE OR ELITE – AND PLACING IT INTO THE HEX FROM WHICH THE SQUAD WAS TAKEN. </p>
+                        <p>IF THE SQUAD WAS BROKEN WHEN IT WAS REMOVED, THE REPLACEMENT TEAM COMES INTO PLAY BROKEN. IF THERE WAS A WEAPON, SUPPRESSED OR VETERAN MARKER ON THE SQUAD, THE TEAM RETAINS THE MARKER. FINALLY, THE NEW TEAM’S ACTIVATION STATUS FOR THE TURN MATCHES THAT OF THE SQUAD IT REPLACED.</p>
+                    </div>
+                </div>
+                <div>
+                    <hr class="solid" />
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireSectionDigInBtn">DIG IN</button>
+                    </div>
+                    <p>DIG IN MAY ONLY BE PLAYED AT THE END OF A GAME TIME ADVANCEMENT [6.1.2].</p>
+                    <div class="dig-in-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+                    <div class="dig-in-action-effect" style="display:none">
+                        <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                        <p>PLACE A FOXHOLES MARKER [F102] INTO A HEX CONTAINING A FRIENDLY UNIT. THE HEX CANNOT BE WATER TERRAIN, AND CAN’T ALREADY CONTAIN A BLAZE OR ANOTHER FORTIFICATION OF ANY TYPE.</p>
+                    </div>
+                    <hr class="solid" />
+                </div>
+                <div>
+                    <div class="d-grid gap-2 d-xxl-block">
+                        <button type="button" class="btn btn-dark" id="playerFireSectionEndGameBtn">GAME END</button>
+                    </div>
+                    <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+                    <ol>
+                        <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+                        <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+                        <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+                        <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+                    </ol>
+                </div>
+            </div>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerFireOrderCompleteBtn">FIRE ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerRecoverSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS RECOVERING...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p><b>IMPORTANT</b> - THE BROKEN/SUPPRESSED UNITS THEMSELVES ARE NOT ACTIVATED DURING A RECOVER ORDER: ONLY THE PLAYER HIMSELF IS.</p>
+            <p>FIRST, THE PLAYER  REMOVES ALL SUPPRESSED MARKERS FROM HIS FRIENDLY UNITS.</p>
+            <p>THEN, HE MAKES A RALLY ROLL FOR EACH FRIENDLY UNIT THAT WAS BROKEN AT THE TIME THE ORDER WAS ANNOUNCED.</p>
+            <p>IF THE ACTIVE PLAYER HAS MORE THAN ONE BROKEN UNIT, HE CHOOSES THE ORDER IN WHICH THOSE UNITS WILL BE AFFECTED. </p>
+            <p>ROLL FOR EACH UNIT...</p>
+            <p>A RALLY ROLL CAN HAVE ONE OF THREE EFFECTS ON A BROKEN UNIT:</p>
+            <ul>
+                <li>IF THE ROLL IS LESS THAN ITS MORALE, RALLY IT [3.2.5] - FLIPPED BACK OVER TO ITS UNBROKEN SIDE.;</li>
+                <li>IF THE ROLL IS EQUAL TO ITS CURRENT MORALE, IT BECOMES SUPPRESSED [13] AND REMAINS BROKEN; </li>
+                <li>IF THE ROLL IS GREATER THAN ITS CURRENT MORALE, THERE IS NO EFFECT AND THE UNIT SIMPLY REMAINS BROKEN.</li>
+            </ul>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerRecoverOrderCompleteBtn">RECOVER ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerRoutSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS ROUTING...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>SELECT WHO WILL BE "ACTIVATED" (EITHER THE PLAYER OR THE COMBAT BOT) PROVIDED THE CHOSEN ONE HAS AT LEAST ONE BROKEN UNIT IN PLAY [3.2]</p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="playerRoutSectionTargetRout" value="1" id="combatBot">
+                <label class="form-check-label" for="combatBot">
+                    COMBAT BOT
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="playerRoutSectionTargetRout" value="2" id="player" checked>
+                <label class="form-check-label" for="player">
+                    PLAYER
+                </label>
+            </div>
+            <p></p>
+            <p><b>IMPORTANT</b> - THE BROKEN UNITS THEMSELVES ARE NOT ACTIVATED DURING A ROUT ORDER: ONLY THE PLAYER HIMSELF IS.</p>
+            <p>THE PLAYER MAKES A ROLL FOR EACH UNIT BELONGING TO THE <span id="activatedPlayer-1">PLAYER</span> THAT WAS BROKEN AT THE TIME THE ORDER WAS ANNOUNCED.</p>
+            <p>IF THE <span id="activatedPlayer-2">PLAYER</span> HAS MORE THAN ONE BROKEN UNIT, THE PLAYER CHOOSES THE ORDER IN WHICH THOSE UNITS WILL BE AFFECTED.</p>
+            <p>A ROUT ROLL CAN HAVE ONE OF THREE EFFECTS ON A BROKEN UNIT:</p>
+            <ul>
+                <li>IF THE ROLL IS LESS THAN ITS MORALE, THERE IS NO EFFECT AND THE UNIT REMAINS WHERE IT IS.</li>
+                <li>IF THE ROLL IS EQUAL TO ITS CURRENT MORALE, IT BECOMES SUPPRESSED [13] IF NOT ALREADY.</li>
+                <li>IF THE ROLL IS GREATER THAN ITS CURRENT MORALE, IT MUST “RETREAT” A NUMBER OF HEXES EQUAL TO THE DIFFERENCE.</li>
+            </ul>
+            <hr class="solid" />
+            <p>AT THE END OF ANY ORDER OR DIE TRIGGER THAT CAUSES A HEX TO CONTAIN UNITS BELONGING TO BOTH SIDES, A MELEE ENSUES IN THAT HEX.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerRoutSectionMeleeBtn">MELEE</button>
+            </div>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerRoutOrderCompleteBtn">ROUT ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="playerPassingSection" style="display:none">
+        <h1 style="font-family: 'Black Ops One', cursive;">PLAYER IS PASSING...</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>THE PLAYER MAY DISCARD ANY NUMBER OF CARDS, UP TO HIS NATIONALITY’S DISCARD LIMIT (AS SHOWN ON THE PLAYER AID SHEET).</p>
+            <p></p>
+            <hr class="solid" />
+            <p>COMBAT BOT MAY DEMOLISHED FORTIFICATION IN ANY HEX CONTAINING A FRIENDLY UNIT WHEN OPPONENT DISCARDS ONE OR MORE CARDS DUE TO "PASSING" [O15]</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="playerPassingSectionDemolitionsBtn">DEMOLITIONS</button>
+            </div>
+            <p></p>
+            <div class="demolitions-action-declassified" style="color:darkred; font-family: 'Black Ops One', cursive; display:none">DECLASSIFIED</div>
+            <div class="demolitions-action-effect" style="display:none">
+                <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
+                <p>SELECT A HEX CONTAINGING A FRIENDLY UNIT. ELIMINATE ONE FORTIFICATION THERE.</p>
+            </div>
+            <hr class="solid" />
+            <button type="button" class="btn btn-link" id="playerPassingOrderCompleteBtn">PASSING ORDER complete <i class="bi bi-arrow-right-square-fill"></i></button>
+        </div>
+    </div>
+    <div class="container-xxl" id="endOfBattleSection" style="font-family: 'Courier Prime', monospace; display: none">
+        <h1 style="font-family: 'Black Ops One', cursive;">BATTLE ENDED</h1>
+        <p>A GAME OF COMBAT COMMANDER WILL GENERALLY END IN ONE OF FOUR WAYS:</p>
+        <ol>
+            <li>A PLAYER IS FORCED TO PLACE ONE OF HIS ELIMINATED UNITS IN THE SPACE OF THE CASUALTY TRACK OCCUPIED BY HIS SURRENDER MARKER;</li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP IS ELIMINATED; </li>
+            <li>A PLAYER’S LAST REMAINING UNIT ON THE MAP VOLUNTARILY EXITS THE MAP [7.2.1];</li>
+            <li>A SUDDEN DEATH ROLL [6.2.2] IS MADE THAT IS LESS THAN THE THE NUMBER IN THE SPACE CURRENTLY OCCUPIED BY THE TIME MARKER</li>
+        </ol>
+        <p>IF THE FIRST OR SECOND SITUATION ABOVE OCCURS, THAT PLAYER IMMEDIATELY AND AUTOMATICALLY LOSES THE GAME REGARDLESS OF THE VP TOTAL. IF BOTH PLAYERS SIMULTANEOUSLY LOSE IN THIS MANNER, THE PLAYER HOLDING THE INITIATIVE CARD BREAKS THE TIE AND WINS THE GAME [9.2].</p>
+        <p>IF THE THIRD OR FOURTH SITUATION ABOVE OCCURS AND THE FIRST TWO SITUATIONS DO NOT APPLY, PLAYERS MUST REVEAL ANY SECRET OBJECTIVE CHITS AND AWARD THEIR VPS TO THE CURRENT CONTROLLER. THEN, THE PLAYER WITH THE HIGHER VP TOTAL – THAT IS, THE VP MARKER IS ON HIS SIDE OF THE “0” SPACE – WINS THE GAME. IF THE VP MARKER IS IN THE “0” SPACE, THE PLAYER HOLDING THE INITIATIVE CARD WINS THE GAME.</p>
+        <button type="button" class="btn btn-link" id="newBattle">Start a new battle <i class="bi bi-repeat"></i></button>
+    </div>
+    <div class="container-xxl" id="combatBotSection">
+        <hr class="solid" />
+        <h1 style="font-family: 'Black Ops One', cursive;">COMBAT BOT</h1>
+        <div style="font-family: 'Courier Prime', monospace;">
+            <p>Nationality : <span id="combatBotSide">[SIDE]</span></p>
+            <p>Side : <span id="combatBotNationality">[NATIONALITY]</span></p>
+            <p>Posture : <span id="combatBotPosture">[POSTURE]</span></p>
+            <p>Fate deck : <span id="combatBotFateDeck">[FATE DECK]</span></p>
+            <p># Orders : <span id="combatBotNbrOrders">[# ORDERS]</span></p>
+            <p>Orders : <span id="combatBotOrders">[LIST OF ORDERS]</span></p>
+            <p>Actions : <span id="combatBotActions">[LIST OF ACTIONS]</span></p>
+            <p>Initiative : <span id="combatBotIntiative">[INITIATIVE]</span></p>
+            <p>Deck size : <span id="combatBotDeckSize">[DECK SIZE]</span></p>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="russianfatedeck.js"></script>
+    <script type="text/javascript" src="germanfatedeck.js"></script>
+    <script type="text/javascript" src="americanfatedeck.js"></script>
+    <script type="text/javascript" src="italianfatedeck.js"></script>
+    <script type="text/javascript" src="frenchfatedeck.js"></script>
+    <script type="text/javascript" src="britishfatedeck.js"></script>
+    <script type="text/javascript" src="eventsdetail.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
+
