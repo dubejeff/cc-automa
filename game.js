@@ -425,7 +425,7 @@ function startGame() {
 
     loadCombatBotDeck();
 
-    document.getElementById("statusSection").style.display = "block";
+    //document.getElementById("statusSection").style.display = "block";
 
     nextPlayerTurn();
 
@@ -442,20 +442,6 @@ function startGame() {
 function playerMoveOrder() {
     document.getElementById("playerSection").style.display = "none";
     document.getElementById("playerMoveSection").style.display = "block";
-    if (game_resources.currentSection != "FireAttackRollSection") {
-        for (let i = 1; i < 99; i++) {
-            let btnName = "playerMoveSectionFireAttackRollBtn-";
-            btnName = btnName.concat(i);
-            let node = document.getElementById(btnName);
-            if (node != null) {
-                node.removeEventListener("click", playerMoveSectionFireAttackRoll);
-            } else {
-                i = 99;
-            }
-        }
-        document.getElementById("unitGroupFireAttack").innerHTML = "";
-        game_resources.combatBotUnitGroupOpFire = 1;
-    }
     game_resources.currentSection = "playerMoveSection";
 }
 
@@ -484,31 +470,15 @@ function executeOrder(section, order) {
     discardOrder(game_resources.activeOrder);
 
     document.getElementById("moveOpFireSection").style.display = "none";
-    document.getElementById("playerOpFireSection").style.display = "none";
-    document.getElementById("combatBotOpFireSection").style.display = "none";
-    document.getElementById("moveOpFireSection").style.display = "none";
-    document.getElementById("playerOpFireSection").style.display = "none";
+    document.getElementById("playerOpFireDescription").style.display = "none";
+    document.getElementById("combatBotNewOpFireDescription").style.display = "none";
+    document.getElementById("combatBotAlreadyActivatedOpFireDescription").style.display = "none";
     document.getElementById("moveFireAssaultActionSection").style.display = "none";
     document.getElementById("waterHex").checked = false;
     document.getElementById("alreadyContainFortification").checked = false;
     document.getElementById("moveOrderBoxedFP").checked = false;
     document.getElementById("moveOrderEnemyWithinLOSandRangeOfActive").checked = false;
     document.getElementById("moveOrderEnemyWithinLOSandRangeOfNonActive").checked = false;
-    if (game_resources.currentSection != "FireAttackRollSection") {
-        for (let i = 1; i < 99; i++) {
-            let btnName = "playerMoveSectionFireAttackRollBtn-";
-            btnName = btnName.concat(i);
-            let node = document.getElementById(btnName);
-            if (node != null) {
-                node.removeEventListener("click", playerMoveSectionFireAttackRoll);
-            } else {
-                i = 99;
-            }
-        }
-        game_resources.combatBotUnitGroupOpFire = 1;
-    }
-    game_resources.noFireAvailable = false;
-    document.getElementById("unitGroupFireAttack").innerHTML = "";
     document.getElementById("betterFPOfNonActive").disabled = true;
 
     game_resources.movementDone = 0;
@@ -521,10 +491,10 @@ function movement() {
     if (game_resources.activePlayer == "COMBAT BOT") {
         if (document.getElementById("moveOrderEnemyWithinLOSandRangeOfNonActive").checked) {
             document.getElementById("moveOpFireSection").style.display = "block";
-            document.getElementById("playerOpFireSection").style.display = "block";
+            document.getElementById("playerOpFireDescription").style.display = "block";
         } else {
             document.getElementById("moveOpFireSection").style.display = "none";
-            document.getElementById("playerOpFireSection").style.display = "none";
+            document.getElementById("playerOpFireDescription").style.display = "none";
         }
         if (player.posture == "Defend" && !document.getElementById("waterHex").checked && !document.getElementById("alreadyContainFortification").checked) {
             document.getElementById("hiddenWireMoveSection").style.display = "block";
@@ -538,19 +508,36 @@ function movement() {
         
     } else {
         if (document.getElementById("moveOrderEnemyWithinLOSandRangeOfNonActive").checked) {
-            if (game_resources.combatBotUnitGroupOpFire == 1 || document.getElementById("betterFPOfNonActive").checked) {
-                combatBotOppFireAction();
+            if (document.getElementById("moveOpFireSection").style.display == "block") {
+                if (document.getElementById("betterFPOfNonActive").checked) {
+                    if (combatBotOppFireAction()) {
+                        document.getElementById("combatBotAlreadyActivatedOpFireDescription").style.display = "none";
+                        document.getElementById("combatBotNewOpFireDescription").style.display = "block";
+                    } else {
+                        document.getElementById("combatBotNewOpFireDescription").style.display = "none";
+                        document.getElementById("combatBotAlreadyActivatedOpFireDescription").style.display = "block";
+                    }
+                } else {
+                    document.getElementById("combatBotNewOpFireDescription").style.display = "none";
+                    document.getElementById("combatBotAlreadyActivatedOpFireDescription").style.display = "block";
+                }
+            } else {
+                if (combatBotOppFireAction()) {
+                    document.getElementById("moveOpFireSection").style.display = "block";
+                    document.getElementById("combatBotAlreadyActivatedOpFireDescription").style.display = "none";
+                    document.getElementById("combatBotNewOpFireDescription").style.display = "block";
+                }
             }
-            document.getElementById("moveOpFireSection").style.display = "block";
-            document.getElementById("combatBotOpFireSection").style.display = "block";
             document.getElementById("betterFPOfNonActive").disabled = false;
         } else {
             document.getElementById("moveOpFireSection").style.display = "none";
-            document.getElementById("combatBotOpFireSection").style.display = "none";
         }
         if (combat_bot.posture == "Defend" && !document.getElementById("waterHex").checked && !document.getElementById("alreadyContainFortification").checked) {
             document.getElementById("hiddenWireMoveSection").style.display = "block";
             document.getElementById("hiddenMineMoveSection").style.display = "block";
+        } else {
+            document.getElementById("hiddenWireMoveSection").style.display = "none";
+            document.getElementById("hiddenMineMoveSection").style.display = "none";
         }
         if (document.getElementById("moveOrderEnemyWithinLOSandRangeOfActive").checked && document.getElementById("moveOrderBoxedFP").checked) {
             document.getElementById("moveFireAssaultActionSection").style.display = "block";
@@ -1071,43 +1058,16 @@ function playerMoveSectionFireAttackRoll() {
 }
 
 function combatBotOppFireAction() {
-    let cardNewUnitGroup = '<div class="card-header" style="font-family: \'Black Ops One\', cursive; ">UNIT OR GROUP replaceNumber</div><div class="card-body"></div><div class="card-header"><div class="d-grid gap-2 d-xxl-block"><button class="btn btn-dark" type="button" id="playerMoveSectionFireAttackRollBtn-replaceNumber">FIRE ATTACK</button></div></div>';
-    let cardDeclassified = '<div class="card-header" style="font-family: \'Black Ops One\', cursive;">DECLASSIFIED</div><div class="card-body"></div><div class="card-header"></div>';
-
-    if (game_resources.noFireAvailable) {
-        return;
-    }
-
     combat_bot.combatFP = 0;
-    let oppFirePermitted = false;
     for (let i = 0; i < combat_bot.hand.length; i++) {
         let card = combat_bot.hand[i];
         if (card.Order == "Fire") {
-            oppFirePermitted = true;
             combat_bot.hand.splice(i, 1);
             updateCombatBotOrdersActions();
-            break;
+            return true;
         }
     }
-
-    let node = document.createElement("div");
-    node.className = "card";
-    node.style.width = "18rem";
-
-    if (oppFirePermitted) {
-        cardNewUnitGroup = cardNewUnitGroup.replace(/replaceNumber/g, game_resources.combatBotUnitGroupOpFire);
-        node.innerHTML = cardNewUnitGroup;
-        document.getElementById("unitGroupFireAttack").appendChild(node);
-        let btnName = "playerMoveSectionFireAttackRollBtn-";
-        btnName = btnName.concat(game_resources.combatBotUnitGroupOpFire);
-        document.getElementById(btnName).addEventListener("click", playerMoveSectionFireAttackRoll);
-        game_resources.combatBotUnitGroupOpFire++;
-    } else {
-        node.innerHTML = cardDeclassified;
-        document.getElementById("unitGroupFireAttack").appendChild(node);
-        game_resources.combatBotUnitGroupOpFire++;
-        game_resources.noFireAvailable = true;
-    }
+    return false;
 }
 
 function combatBotFireAttackComplete() {

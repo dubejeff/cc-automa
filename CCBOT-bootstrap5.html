@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <title>CC BOT 1.0</title>
 </head>
-<body>
+<body style="font-size: 11px">
     <div class="container-xxl" id="setupSection">
         <h1 style="font-family: 'Black Ops One', cursive;">SETUP</h1>
         <select class="form-select" aria-label="Select a Scenario" id="scenario_choices" style="font-family: 'Courier Prime', monospace;">
@@ -139,7 +139,7 @@
         <hr class="solid" />
     </div>
     <div class="container-xxl" id="ordersSection" style="display:none">
-        <h1 style="font-family: 'Black Ops One', cursive;"><span id="nationality">[NATIONALITY]</span> ORDER - <span class="activePlayer">[ACTIVE PLAYER]</span></h1>
+        <h1 style="font-family: 'Black Ops One', cursive;"><span class="activePlayer">[ACTIVE PLAYER]</span> - <span id="nationality">[NATIONALITY]</span></h1>
         <p></p>
         <div id="combatBotOrdersSection">
             <div class="d-grid gap-2 d-xxl-block">
@@ -259,24 +259,20 @@
                 </label>
             </div>
             <p></p>
-            <p>PRESS THE "MOVE" BUTTON EACH TIME THE UNIT MOVE OR ADVANCE INTO AN HEX</p>
+            <p>PRESS THE "MOVE" BUTTON EACH TIME THE UNIT MOVE INTO AN HEX</p>
             <div class="d-grid gap-2 d-xxl-block">
-                <button class="btn btn-dark" type="button" id="moveSectionMoveBtn">MOVE</button>
+                <button class="btn btn-dark btn-sm" type="button" id="moveSectionMoveBtn">MOVE</button>
             </div>
             <p></p>
             <p><span id="numberMovementDone"></span> MOVEMENT DONE</p>
         </div>
         <div id="moveOpFireSection">
             <hr class="solid" />
-            <p>THE <span class="nonActivePlayer">[NON ACTIVE PLAYER]</span> MAY USE OP FIRE [A33] AGAINST THE <span class="activePlayer">[ACTIVE PLAYER]</span>’S MOVING UNITS EACH TIME THEY ENTER A NEW HEX, WITH A NEW ACTION OR AN ALREADY ACTIVATED UNIT OR GROUP.</p>
-            <div id="combatBotOpFireSection">
-                <div class="card-group" id="unitGroupFireAttack">
-                </div>
-            </div>
-            <div id="playerOpFireSection">
-                <div class="d-grid gap-2 d-xxl-block">
-                    <button class="btn btn-dark" type="button" id="moveSectionOpFireBtn">OP FIRE ATTACK</button>
-                </div>
+            <p id="playerOpFireDescription" style="display: none">THE PLAYER MAY USE "OP FIRE" [A33].</p>
+            <p id="combatBotNewOpFireDescription" style="display: none">THE COMBAT BOT USE "OP FIRE" [A33] WITH A NEW UNIT OR GROUP.</p>
+            <p id="combatBotAlreadyActivatedOpFireDescription" style="display: none">THE COMBAT BOT USE "OP FIRE" [A33] WITH UNIT OR GROUP <b style="color:darkred">ALREADY ACTIVATED</b>.</p>
+            <div class="d-grid gap-2 d-xxl-block">
+                <button class="btn btn-dark" type="button" id="moveSectionOpFireBtn">OP FIRE ATTACK</button>
             </div>
         </div>
         <div id="hiddenWireMoveSection" style="display: none">
@@ -296,17 +292,30 @@
                 <div class="p-3">
                     <p style="color:darkred; font-family: 'Black Ops One', cursive;">EFFECT</p>
                     <p>PLACE A MINES MARKER [F103] INTO THAT HEX. THE DEFENDER THEN MAKES A MINE ATTACK [F103.2] AGAINST EACH OF THOSE MOVING/ADVANCING UNITS.</p>
+                    <div>
+                        <div class="d-grid gap-2 d-xxl-block">
+                            <button class="btn btn-dark" type="button" id="combatBotMineAttackBtn">MINE ATTACK</button>
+                        </div>
+                        <div class="border border-3 border-dark rounded">
+                            <div class="p-3">
+                                <p style="color:darkred; font-family: 'Black Ops One', cursive;">ROLL RESULT</p>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <h1 id="moveSectionMineAttackResult"></h1>
+                                    </div>
+                                    <div class="col">
+                                        <p id="moveSectionMineAttackEvent"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div id="moveFireAssaultActionSection">
             <hr class="solid" />
-            <p>THE <span class="activePlayer">[ACTIVE PLAYER]</span> MAY PLAY ASSAULT FIRE IF AT LEAST ONE UNIT CURRENTLY ACTIVATED TO MOVE (OR ITS WEAPON) HAS BOTH: </p>
-            <ul>
-                <li>BOXED FP, AND</li>
-                <li>AN ENEMY UNIT WITHIN ITS CURRENT RANGE AND LOS AT WHICH TO SHOOT.</li>
-            </ul>
-            <p>EACH ASSAULT FIRE ACTION ALLOWS A SINGLE FIRE ATTACK TO BE MADE. THIS ATTACK MAY FORM A FIRE GROUP USING ANY OR ALL MOVING UNITS AND/OR THEIR WEAPONS THAT HAVE BOXED FP. THE ATTACK OTHERWISE ADHERES TO ALL RULES AND RESTRICTIONS PERTAINING TO A REGULAR FIRE ATTACK AS IF MADE DURING A FIRE ORDER [O20].</p>
+            <p>THE <span class="activePlayer">[ACTIVE PLAYER]</span> MAY PLAY "ASSAULT FIRE".</p>
             <div class="d-grid gap-2 d-xxl-block">
                 <button class="btn btn-dark" type="button" id="fireAssaultBtn">FIRE ASSAULT</button>
             </div>
@@ -1559,7 +1568,6 @@
             <p>Deck size : <span id="combatBotDeckSize">[DECK SIZE]</span></p>
         </div>
     </div>
-
     <script type="text/javascript" src="russianfatedeck.js"></script>
     <script type="text/javascript" src="germanfatedeck.js"></script>
     <script type="text/javascript" src="americanfatedeck.js"></script>
